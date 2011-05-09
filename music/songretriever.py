@@ -40,13 +40,13 @@ class BaseMusicHandlerConfig(BaseTable):
         self.append_entry_default('Format', 'config.music_format', config.music_format)
         self.append_check(_('Set song cover as avatar'), 'config.change_avatar')
 
-class MusicHandler(object):
-    '''Base class for all music handlers'''
+class BaseMusicHandler(object):
+    '''Base class for all music handlers that 
+        can't split artist/song/album (ie. Windows players)'''
     NAME = 'None'
     DESCRIPTION = 'Don\'t listen to any player'
     AUTHOR = 'Mariano Guerra'
     WEBSITE = 'www.emesene.org'
-
     def __init__(self, main_window):
         self.last_title = None
         self.session = None
@@ -57,12 +57,57 @@ class MusicHandler(object):
 
         self.config = self.session.config
         # set default values if not set
-        self.config.get_or_set('music_format', "%ARTIST% - %ALBUM% - %TITLE%")
-        self.config.get_or_set('change_avatar', True)
+        self.config.get_or_set('music_format', "%SONG%")
+        self.config.get_or_set('change_avatar', False)
 
         self.config_dialog_class = BaseMusicHandlerConfig
 
-        glib.timeout_add_seconds(15, self.check_song)
+        self.timeout = glib.timeout_add_seconds(15, self.check_song)
+
+    def check_song(self):
+        '''get the current song and set it if different than the last one'''
+        if self.session:
+            song = self.get_current_song()
+
+            if song:
+                if song != self.last_title:
+                    self.session.set_media(song)
+                    self.last_title = song
+
+            elif self.last_title is not None:
+                self.last_title = None
+                self.session.set_media(_("not playing"))
+
+        return True
+
+    def get_current_song(self):
+        ''' returns current song info
+        This MUST be overriden'''
+        return False
+
+    def is_running(self):
+        '''returns True if the player is running
+        This MUST be overriden'''
+        return False
+
+    def is_playing(self):
+        '''returns True if the player is playing a song
+        This MUST be overriden'''
+        return False
+
+class MusicHandler(BaseMusicHandler):
+    '''Base class for all music handlers 
+        that can split artist from song from album, etc...'''
+    NAME = 'None'
+    DESCRIPTION = 'Don\'t listen to any player'
+    AUTHOR = 'Mariano Guerra'
+    WEBSITE = 'www.emesene.org'
+
+    def __init__(self, main_window):
+        BaseMusicHandler.__init__(self)
+        # set default values if not set
+        self.config.get_or_set('music_format', "%ARTIST% - %ALBUM% - %TITLE%")
+        self.config.get_or_set('change_avatar', True)
 
     def preferences(self):
         ''' Shows the extension preferences dialog
@@ -172,17 +217,3 @@ class MusicHandler(object):
 
         return None
 
-    def get_current_song(self):
-        ''' returns current song info
-        This MUST be overriden'''
-        return None
-
-    def is_running(self):
-        '''returns True if the player is running
-        This MUST be overriden'''
-        return False
-
-    def is_playing(self):
-        '''returns True if the player is playing a song
-        This MUST be overriden'''
-        return False
