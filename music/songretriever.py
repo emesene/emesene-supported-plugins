@@ -37,7 +37,8 @@ class BaseMusicHandlerConfig(BaseTable):
         BaseTable.__init__(self, 4, 1)
         self.config = config
 
-        self.append_entry_default('Format', 'config.music_format', config.music_format)
+        self.append_entry_default(_('Format'), 'format', \
+                                 'config.music_format', config.music_format)
         self.append_check(_('Set song cover as avatar'), 'config.change_avatar')
 
 class BaseMusicHandler(object):
@@ -95,6 +96,21 @@ class BaseMusicHandler(object):
         This MUST be overriden'''
         return False
 
+    def _on_config(self, status):
+        '''callback for the config dialog'''
+        if status:
+            pass
+
+    def preferences(self):
+        ''' Shows the extension preferences dialog
+        You don't need to override this'''
+        config_dialog = self.config_dialog_class(self.config)
+
+        preferences_dialog = Preferences.Preferences(
+            self._on_config, self.NAME, config_dialog)
+
+        preferences_dialog.show()
+
 class MusicHandler(BaseMusicHandler):
     '''Base class for all music handlers 
         that can split artist from song from album, etc...'''
@@ -108,21 +124,6 @@ class MusicHandler(BaseMusicHandler):
         # set default values if not set
         self.config.get_or_set('music_format', "%ARTIST% - %ALBUM% - %TITLE%")
         self.config.get_or_set('change_avatar', True)
-
-    def preferences(self):
-        ''' Shows the extension preferences dialog
-        You don't need to override this'''
-        config_dialog = self.config_dialog_class(self.config)
-
-        preferences_dialog = Preferences.Preferences(
-            self._on_config, self.NAME, config_dialog)
-
-        preferences_dialog.show()
-
-    def _on_config(self, status):
-        '''callback for the config dialog'''
-        if status:
-            pass
 
     def check_song(self):
         '''get the current song and set it if different than the last one
