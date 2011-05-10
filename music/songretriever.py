@@ -120,7 +120,7 @@ class MusicHandler(BaseMusicHandler):
     WEBSITE = 'www.emesene.org'
 
     def __init__(self, main_window):
-        BaseMusicHandler.__init__(self)
+        BaseMusicHandler.__init__(self, main_window)
         # set default values if not set
         self.config.get_or_set('music_format', "%ARTIST% - %ALBUM% - %TITLE%")
         self.config.get_or_set('change_avatar', True)
