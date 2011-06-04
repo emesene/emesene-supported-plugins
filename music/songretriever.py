@@ -37,9 +37,9 @@ class BaseMusicHandlerConfig(BaseTable):
         BaseTable.__init__(self, 4, 1)
         self.config = config
 
-        self.append_entry_default(_('Format'), 'format', \
+        self.append_entry_default(_('Message Format: '), 'format', \
                                  'config.music_format', config.music_format)
-        self.append_check(_('Set song cover as avatar'), 'config.change_avatar')
+        self.append_check(_('Use the album art as an avatar'), 'config.change_avatar')
 
 class BaseMusicHandler(object):
     '''Base class for all music handlers that 
@@ -58,7 +58,7 @@ class BaseMusicHandler(object):
 
         self.config = self.session.config
         # set default values if not set
-        self.config.get_or_set('music_format', "%SONG%")
+        self.config.get_or_set('music_format', "%ARTIST% - %ALBUM% - %TITLE%")
         self.config.get_or_set('change_avatar', False)
 
         self.config_dialog_class = BaseMusicHandlerConfig
