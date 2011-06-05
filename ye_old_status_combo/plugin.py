@@ -9,8 +9,13 @@ class Plugin(PluginBase):
 
     def start(self, session):
         self.extensions_register()
+        return True
 
     def stop(self):
+        return False
+
+    def config(self, session):
+        '''method to config the plugin'''
         pass
 
     def extensions_register(self):
