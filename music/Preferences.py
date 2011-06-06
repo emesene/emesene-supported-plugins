@@ -18,7 +18,7 @@ class Preferences(gtk.Window):
         self.set_border_width(2)
         self.set_title(player_name + " preferences")
         self.set_icon(
-            utils.safe_gtk_image_load(gui.theme.logo).get_pixbuf())
+            utils.safe_gtk_image_load(gui.theme.get_image_theme().logo).get_pixbuf())
 
         self.set_default_size(300, 150)
         self.set_role("New preferences Window")
