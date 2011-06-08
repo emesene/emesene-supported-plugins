@@ -58,7 +58,7 @@ class BaseMusicHandler(object):
 
         self.config = self.session.config
         # set default values if not set
-        self.config.get_or_set('music_format', "%ARTIST% - %ALBUM% - %TITLE%")
+        self.config.get_or_set('music_format', "(8) %TITLE% - %ARTIST%")
         self.config.get_or_set('change_avatar', False)
 
         self.config_dialog_class = BaseMusicHandlerConfig
@@ -122,7 +122,7 @@ class MusicHandler(BaseMusicHandler):
     def __init__(self, main_window):
         BaseMusicHandler.__init__(self, main_window)
         # set default values if not set
-        self.config.get_or_set('music_format', "%ARTIST% - %ALBUM% - %TITLE%")
+        self.config.get_or_set('music_format', "(8) %TITLE% - %ARTIST%")
         self.config.get_or_set('change_avatar', True)
 
     def check_song(self):
