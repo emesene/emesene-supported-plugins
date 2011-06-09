@@ -1,0 +1,6 @@
+These are the officially supported plugins for emesene. To install these plugins, download the tarball or zipball, extract the contents of the emesene-emesene-supported-plugins folder into the emesene plugin folder (listed below) and enable them in the emesene preference window.
+
+Windows: C:/Documents and Settings/User/Application data/emesene/emesene2/plugins
+Linux: ~/.config/emesene2/plugins
+
+To see information on how to make a plugin, take a look at the wiki here: https://github.com/emesene/emesene/wiki/Plugin-How-To

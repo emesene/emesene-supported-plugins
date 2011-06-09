@@ -40,6 +40,8 @@ class BaseMusicHandlerConfig(BaseTable):
         self.append_entry_default(_('Message Format: '), 'format', \
                                  'config.music_format', config.music_format)
         self.append_check(_('Use the album art as an avatar'), 'config.change_avatar')
+	self.append_markup(_('See the "listening to" option in the extentions tab of the')
+	self.append_markup(_('preference window to select a preferred media player'))
 
 class BaseMusicHandler(object):
     '''Base class for all music handlers that 
@@ -52,13 +54,16 @@ class BaseMusicHandler(object):
         self.last_title = None
         self.session = None
         self.avatar_manager = None
+        '''Place to hold personal message'''
+        self.pmessage = ''
+        self.pmflag = False
 
         self.session = main_window.session
         self.avatar_manager = AvatarManager(self.session)
 
         self.config = self.session.config
         # set default values if not set
-        self.config.get_or_set('music_format', "%ARTIST% - %ALBUM% - %TITLE%")
+        self.config.get_or_set('music_format', "(8) %TITLE% - %ARTIST%")
         self.config.get_or_set('change_avatar', False)
 
         self.config_dialog_class = BaseMusicHandlerConfig
@@ -72,12 +77,18 @@ class BaseMusicHandler(object):
 
             if song:
                 if song != self.last_title:
+
+                    if self.pmflag is False:
+                        self.pmflag = True
+                        self.pmessage = self.session.contacts.me.message
+
                     self.session.set_media(song)
                     self.last_title = song
 
             elif self.last_title is not None:
                 self.last_title = None
-                self.session.set_media(_("not playing"))
+                self.session.set_media(self.pmessage)
+                self.pmflag = False
 
         return True
 
@@ -122,7 +133,7 @@ class MusicHandler(BaseMusicHandler):
     def __init__(self, main_window):
         BaseMusicHandler.__init__(self, main_window)
         # set default values if not set
-        self.config.get_or_set('music_format', "%ARTIST% - %ALBUM% - %TITLE%")
+        self.config.get_or_set('music_format', "(8) %TITLE% - %ARTIST%")
         self.config.get_or_set('change_avatar', True)
 
     def check_song(self):
@@ -136,13 +147,19 @@ class MusicHandler(BaseMusicHandler):
                 current_title = song.format(self.config.music_format)
 
                 if current_title != self.last_title:
+
+                    if self.pmflag is False:
+                        self.pmflag = True
+                        self.pmessage = self.session.contacts.me.message
+
                     self.session.set_media(current_title)
                     self.last_title = current_title
                     self.set_cover_as_avatar(song)
 
             elif self.last_title is not None:
                 self.last_title = None
-                self.session.set_media(_("not playing"))
+                self.session.set_media(self.pmessage)
+                self.pmflag = False
 
         return True
 
