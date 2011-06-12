@@ -54,7 +54,7 @@ class Plugin(PluginBase):
     def stop(self):
         gobject.timeout_remove(self.timeout_id)
 
-    def config(self):
+    def config(self, session):
         pass
 
     #check if user was idle enough time to change status
