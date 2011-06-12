@@ -52,7 +52,7 @@ class Plugin(PluginBase):
         self.isIdle = self.session.contacts.me.status == e3.status.IDLE
 
     def stop(self):
-        gobject.timeout_remove(self.timeout_id)
+        gobject.source_remove(self.timeout_id)
 
     def config(self, session):
         pass
