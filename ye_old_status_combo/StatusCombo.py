@@ -47,7 +47,12 @@ class StatusCombo(gtk.ComboBox):
             if stat == current_status:
                 active = count
 
-            pixbuf = utils.safe_gtk_pixbuf_load(gui.theme.get_image_theme().status_icons[stat])
+            if hasattr(gui.theme, "image_theme"):
+                status = gui.theme.image_theme.status_icons[stat]
+            else:
+                status = gui.theme.status_icons[stat]
+
+            pixbuf = utils.safe_gtk_pixbuf_load(gui.theme.image_theme.status_icons[stat])
             pixbuf.scale_simple(20, 20, gtk.gdk.INTERP_BILINEAR)
             self.model.append([pixbuf, stat, status_name]) # re-gettext-it
 
