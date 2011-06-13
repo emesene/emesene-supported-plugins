@@ -37,7 +37,7 @@ class BaseMusicHandlerConfig(BaseTable):
         BaseTable.__init__(self, 4, 1)
         self.config = config
 
-        self.append_entry_default(_('Message Format: '), 'format', \
+        self.append_entry_default(_('Message Format: '), 'music', \
                                  'config.music_format', config.music_format)
         self.append_check(_('Use the album art as an avatar'), 'config.change_avatar')
         self.append_markup(_('See the "listening to" option in the extentions tab of the'))
