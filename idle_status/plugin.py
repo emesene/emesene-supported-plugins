@@ -18,7 +18,7 @@
 
 import extension
 import e3
-import gobject
+import glib
 import os
 
 from plugin_base import PluginBase
@@ -47,12 +47,12 @@ class Plugin(PluginBase):
         self.idleAfter = 5*60 #5 minutes default
         self.session = session
         #TODO: Find a way to be independant of gobject
-        self.timeout_id = gobject.timeout_add_seconds(4, self.idle_state)
+        self.timeout_id = glib.timeout_add_seconds(4, self.idle_state)
         self.isIdle = self.session.contacts.me.status == e3.status.IDLE
         self.timer = None
 
     def stop(self):
-        gobject.source_remove(self.timeout_id)
+        glib.source_remove(self.timeout_id)
 
     def config(self, session):
         #add time preference
