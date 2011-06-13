@@ -48,20 +48,21 @@ class Plugin(PluginBase):
         self.session = session
         #TODO: Find a way to be independant of gobject
         self.timeout_id = gobject.timeout_add_seconds(4, self.idle_state)
-        self.extensions_register()
         self.isIdle = self.session.contacts.me.status == e3.status.IDLE
+        self.timer = None
 
     def stop(self):
         gobject.source_remove(self.timeout_id)
 
     def config(self, session):
+        #add time preference
         pass
 
     #check if user was idle enough time to change status
     def idle_state(self):
         #compare idle time with user's preferences
-        timer = extension.get_and_instantiate('idle timer')
-        idleTime = timer.get_idle_duration()
+        self.timer = extension.get_and_instantiate('idle timer')
+        idleTime = self.timer.get_idle_duration()
         if idleTime >= self.idleAfter:
             #if idle enough time and ONLINE, set idle status
             if self.session.contacts.me.status == e3.status.ONLINE:
@@ -73,10 +74,10 @@ class Plugin(PluginBase):
             self.isIdle=False
         return True
 
-    def extensions_register(self):
+    def category_register(self):
         if os.name == "nt":
-            extension.category_register('idle timer', Windows.WindowsTimer)
+            extension.category_register('idle timer', Windows.WindowsTimer, None, True)
         else: #TODO: add some unix extensions that works always
           if HAS_XLIB:
-              extension.category_register('idle timer', Xlib.XlibTimer)
+              extension.category_register('idle timer', Xlib.XlibTimer, None, True)
               #TODO: add some mac method too
