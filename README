@@ -4,5 +4,6 @@ These are the officially supported plugins for emesene. To install these plugins
 Windows XP: C:\Documents and Settings\USERNAME\Application data\emesene\emesene2\plugins
 Windows Vista/7: C:\Users\USERNAME\AppData\Roaming\emesene\emesene2\plugins
 Linux: ~/.config/emesene2/plugins (OR /home/USERNAME/.config/emesene2/plugins for another user)
+Mac: ~/Library/Application Support/emesene2/plugins
 
 To see information on how to make a plugin, take a look at the wiki here: https://github.com/emesene/emesene/wiki/Plugin-How-To
