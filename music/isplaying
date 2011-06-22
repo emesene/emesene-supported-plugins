@@ -1,0 +1,13 @@
+/usr/bin/osascript <<__END__
+
+tell application "$1"
+	try
+		set playerstate to (get player state as string)
+	end try
+	
+	if playerstate = "playing" then
+		return "playing"
+	end if
+	
+end tell
+__END__
