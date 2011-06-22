@@ -79,6 +79,12 @@ class Plugin(PluginBase):
             extension.register(CATEGORY, handler_mpd.MpdHandler)
             extension.register(CATEGORY, handler_mpris.MprisHandler)
             extension.register(CATEGORY, handler_rhythmbox.RhythmboxHandler)
+            
+            #Import OS X players
+            import handler_itunes
+            import handler_spotify
+            extension.register(CATEGORY, handler_itunes.iTunesHandler)
+            extension.register(CATEGORY, handler_spotify.SpotifyHandler)
 
             if XMMSCLIENT:
                 extension.register(CATEGORY, handler_xmms2.Xmms2Handler)
@@ -118,4 +124,3 @@ class Plugin(PluginBase):
                 self.session.config.d_extensions.get(CATEGORY, handler_id)
 
         extension.set_default_by_id(CATEGORY, handler_id)
-
