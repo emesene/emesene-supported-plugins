@@ -10,11 +10,19 @@ class iTunesHandler(songretriever.MusicHandler):
     
     def __init__(self, main_window = None):
         songretriever.MusicHandler.__init__(self, main_window)
-                
+        
+    def is_running(self):
+        '''Check whether iTunes is running'''
+        isrunning = """osascript -e 'tell application "System Events" to (name of processes) contains "iTunes"' 2>/dev/null"""
+        running = commands.getoutput(isrunning) 
+        return running == 'true' 
+
     def is_playing(self):
-        command = "/Applications/emesene.app/Contents/Resources/emesene/plugins/music/isplaying iTunes 2>/dev/null"
-        status = commands.getoutput(command) 
-        return status == 'playing' 
+        '''Check whether iTunes is playing'''
+        if self.is_running():
+            isplaying = "/Applications/emesene.app/Contents/Resources/emesene/plugins/music/isplaying iTunes 2>/dev/null"
+            playerstate = commands.getoutput(isplaying) 
+            return playerstate == 'playing' 
 
     def get_current_song(self):
         '''Returns the current song in the correct format'''
