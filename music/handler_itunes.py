@@ -20,7 +20,7 @@ class iTunesHandler(songretriever.MusicHandler):
     def is_playing(self):
         '''Check whether iTunes is playing'''
         if self.is_running():
-            isplaying = "/Applications/emesene.app/Contents/Resources/emesene/plugins/music/isplaying iTunes 2>/dev/null"
+            isplaying = """osascript -e 'tell application "iTunes" to player state as string' 2>/dev/null"""
             playerstate = commands.getoutput(isplaying) 
             return playerstate == 'playing' 
 
