@@ -20,7 +20,7 @@ class SpotifyHandler(songretriever.MusicHandler):
     def is_playing(self):
         '''Check whether Spotify is playing'''
         if self.is_running():
-            isplaying = "/Applications/emesene.app/Contents/Resources/emesene/plugins/music/isplaying Spotify 2>/dev/null"
+            isplaying = """osascript -e 'tell application "Spotify" to player state as string' 2>/dev/null"""
             playerstate = commands.getoutput(isplaying) 
             return playerstate == 'playing'  
 
