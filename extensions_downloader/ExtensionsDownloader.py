@@ -10,9 +10,9 @@ from gui.gtkui import utils
 from DownloadExtension import DownloadExtension
 
 class ExtensionsDownloader():
-    """a plugin to download themes and plugins"""
+    """a plugin to download themes"""
     NAME = 'Extensions Downloader'
-    DESCRIPTION = 'A plugin to download themes and plugins'
+    DESCRIPTION = 'A plugin to download themes'
     AUTHOR = 'Andrea Stagi'
     WEBSITE = 'www.emesene.org'
 
