@@ -24,14 +24,14 @@ import os
 from plugin_base import PluginBase
 
 if os.name == "nt":
-    import Windows
+    import WindowsTimer
 
 try:
-    import Xlib
+    import XlibTimer
     HAS_XLIB = True
 except Exception, e:
     HAS_XLIB = False
-    
+
 # I don't know if mac uses Xlib or something, I've found some reference to
 # "HIDIdleTime" system property but I have no way to implement/test it
 
@@ -76,8 +76,10 @@ class Plugin(PluginBase):
 
     def category_register(self):
         if os.name == "nt":
-            extension.category_register('idle timer', Windows.WindowsTimer, None, True)
+            extension.category_register('idle timer', WindowsTimer.WindowsTimer,
+                None, True)
         else: #TODO: add some unix extensions that works always
-          if HAS_XLIB:
-              extension.category_register('idle timer', Xlib.XlibTimer, None, True)
-              #TODO: add some mac method too
+            if HAS_XLIB:
+                extension.category_register('idle timer', XlibTimer.XlibTimer,
+                    None, True)
+        #TODO: add some mac method too

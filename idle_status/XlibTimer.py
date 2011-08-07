@@ -16,11 +16,12 @@
 #    along with emesene; if not, write to the Free Software
 #    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
+import time
 from Xlib import display
 
-def XlibTimer(object):
+class XlibTimer(object):
     def __init__(self):
-        self.display = Xlib.display.Display()
+        self.display = display.Display()
         self.screen = self.display.screen()
         self.last_x = -1
         self.last_y = -1
@@ -31,14 +32,14 @@ def XlibTimer(object):
         y = self.screen.root.query_pointer()._data["root_y"]
         if self.last_x == x and self.last_y == y:
             #if mouse didn't move, check pressed keys (not the best, but should work...)
-            #it's really ugly, but I tryied with keypress/release events
+            #it's really ugly, but I tried with keypress/release events
             #and I can't/don't know how to make them work...
             keymap = self.display.query_keymap()
             for key in keymap:
                 if not key == 0:
-                    self.resetLastActivity(None,None)
+                    self.last_activity = time.time()
         else:
             self.last_x = x
             self.last_y = y
-            self.resetLastActivity(None,None)
-        return time.time() - self.lastActivity
+            self.last_activity = time.time()
+        return time.time() - self.last_activity
