@@ -5,7 +5,7 @@ import gobject
 import e3
 import gui
 from gui.gtkui import utils
-from gui.gtkui import Renderers
+from gui.base import Plus
 from time import *
 
 class HistoryStatusCombo(gtk.ComboBox):
@@ -69,11 +69,10 @@ class HistoryStatusCombo(gtk.ComboBox):
             pixbuf = utils.safe_gtk_pixbuf_load(status)
 
             pixbuf.scale_simple(20, 20, gtk.gdk.INTERP_BILINEAR)
-            display_name = Renderers.msnplus_to_plain_text(contact.display_name)
+            display_name = Plus.msnplus_strip(contact.display_name)
             self.model.prepend([time, pixbuf, contact.status, display_name])
             self.set_active(0)
 
     def on_stop():
         main_window.session.signals.contact_attr_changed.unsubscribe(
                 self._on_contact_change_something)
-
