@@ -4,6 +4,9 @@ from plugin_base import PluginBase
 import StatusCombo
 
 class Plugin(PluginBase):
+    _author = {'Mariano Guerra':''}
+    _description = 'A combo to select the status like emesene 1.0'
+    
     def __init__(self):
         PluginBase.__init__(self)
 
