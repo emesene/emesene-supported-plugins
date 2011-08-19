@@ -4,6 +4,9 @@ from plugin_base import PluginBase
 import ExtensionsDownloader
 
 class Plugin(PluginBase):
+    _authors = {'Andrea Stagi':''}
+    _description = 'A plugin to download themes'
+
     def __init__(self):
         PluginBase.__init__(self)
 

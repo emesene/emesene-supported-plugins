@@ -36,7 +36,7 @@ except Exception, e:
 # "HIDIdleTime" system property but I have no way to implement/test it
 
 class Plugin(PluginBase):
-    _description = _( 'Change status to idle after 5 minutes of inactivity.')
+    _description = 'Change status to idle after 5 minutes of inactivity'
     _authors = { 'arielj' : 'arieljuod gmail com' }
     def __init__(self):
         PluginBase.__init__(self)
