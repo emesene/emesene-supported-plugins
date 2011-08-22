@@ -9,7 +9,7 @@ CATEGORY = 'listening to'
 class Plugin(PluginBase):
     _authors = {'Mariano Guerra':'', 'Ariel Juodziukynas':'', 'Karasu':'',
                 'Josh F':'', 'Adolfo Fitoria':''}
-    _description = 'Show in your message what are you listening to'
+    _description = 'Show in your message what you are listening to'
 
     def __init__(self):
         PluginBase.__init__(self)
