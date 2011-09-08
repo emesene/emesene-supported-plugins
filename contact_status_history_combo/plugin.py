@@ -16,8 +16,6 @@ class Plugin(PluginBase):
         return True
 
     def stop(self):
-        #disconect signals
-        self.on_stop()
         return False
 
     def config(self, session):
