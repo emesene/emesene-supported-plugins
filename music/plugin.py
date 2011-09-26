@@ -46,6 +46,10 @@ class Plugin(PluginBase):
 
         return True
 
+    def configurable(self):
+        '''this plugin is configurable'''
+        return True
+
     def category_register(self):
         import songretriever
         extension.category_register(CATEGORY, songretriever.BaseMusicHandler, songretriever.BaseMusicHandler, True)
