@@ -47,8 +47,10 @@ class LastSaid():
 
     def _on_chats_ready(self, results):
         '''called when the chat history is ready'''
+
+        self.conversation.conv_status.clear()
+
         if not results:
-            self.conversation.conv_status.clear()
             self.conversation.output.unlock ()
             return
 
