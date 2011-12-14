@@ -70,6 +70,7 @@ class Plugin(PluginBase):
             import handler_mpd
             import handler_mpris
             import handler_rhythmbox
+            import handler_rhythmbox3
 
             try:
                 import handler_xmms2
@@ -89,6 +90,7 @@ class Plugin(PluginBase):
             extension.register(CATEGORY, handler_mpd.MpdHandler)
             extension.register(CATEGORY, handler_mpris.MprisHandler)
             extension.register(CATEGORY, handler_rhythmbox.RhythmboxHandler)
+            extension.register(CATEGORY, handler_rhythmbox3.RhythmboxHandler)
             
             #Import OS X players
             import handler_itunes
