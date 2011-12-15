@@ -15,8 +15,8 @@
 #    You should have received a copy of the GNU General Public License
 #    along with emesene; if not, write to the Free Software
 #    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
-
 '''module to define the TypingNotification class, used by plugin.py'''
+
 import gtk
 import gobject
 
@@ -51,8 +51,9 @@ class TypingNotification(gtk.Label):
         if account in self.conversation.members:
             contact = self.session.contacts.get(account)
             if contact and not self.active:
-                self.active = True
-                self.set_markup(_("%s is typing") % contact.display_name)
+                self.active = True #avoid many timeout
+                display_name = Plus.msnplus_strip(contact.display_name)
+                self.set_markup(_("%s is typing") % display_name)
                 glib.timeout_add_seconds(3, self.update_label)
 
     def update_label(self):
