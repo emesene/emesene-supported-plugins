@@ -58,13 +58,10 @@ class Plugin(PluginBase):
 
     def extensions_register(self):
         if os.name != "nt": #import unix players
-            import handler_amarok2
             import handler_audacious2
             import handler_banshee
-            import handler_clementine
             import handler_exaile
             import handler_gmusicbrowser
-            import handler_guayadeque
             import handler_lastfm
             import handler_moc
             import handler_mpd
@@ -78,17 +75,17 @@ class Plugin(PluginBase):
             except ImportError:
                 XMMSCLIENT = False
 
-            extension.register(CATEGORY, handler_amarok2.Amarok2Handler)
+            extension.register(CATEGORY, handler_mpris.Amarok2Handler)
             extension.register(CATEGORY, handler_audacious2.Audacious2Handler)
             extension.register(CATEGORY, handler_banshee.BansheeHandler)
-            extension.register(CATEGORY, handler_clementine.ClementineHandler)
+            extension.register(CATEGORY, handler_mpris.ClementineHandler)
             extension.register(CATEGORY, handler_exaile.ExaileHandler)
             extension.register(CATEGORY, handler_gmusicbrowser.GMusicBrowserHandler)
-            extension.register(CATEGORY, handler_guayadeque.GuayadequeHandler)
+            extension.register(CATEGORY, handler_mpris.GuayadequeHandler)
             extension.register(CATEGORY, handler_lastfm.LastfmHandler)
             extension.register(CATEGORY, handler_moc.MocHandler)
             extension.register(CATEGORY, handler_mpd.MpdHandler)
-            extension.register(CATEGORY, handler_mpris.MprisHandler)
+            extension.register(CATEGORY, handler_mpris.PraghaHandler)
             extension.register(CATEGORY, handler_rhythmbox.RhythmboxHandler)
             extension.register(CATEGORY, handler_rhythmbox3.RhythmboxHandler)
             
