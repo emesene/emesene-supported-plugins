@@ -4,6 +4,28 @@ import DBusBase
 class MprisBase(DBusBase.DBusBase):
     def __init__(self, main_window, iface_name, iface_path):
         DBusBase.DBusBase.__init__(self, main_window, iface_name, iface_path)
+        self.check_song()
+
+    def status_change(self, state):
+        '''process player status changes'''
+        self.check_song()
+
+    def reconnect(self):
+        '''method to attemp a reconnection, via dbus, this is only
+        called if the bus object is not initialized'''
+        if DBusBase.DBusBase.reconnect(self):
+            self.dbuspropiface = self.module.Interface(self.iface,
+                                    dbus_interface='org.freedesktop.MediaPlayer')
+            self.dbuspropiface.connect_to_signal('StatusChange', self.status_change)
+            return True
+
+        return False
+
+    def get_automatic_updates(self):
+        '''When the handler can do automatic updates of player status
+           and timeout are not needed.
+        '''
+        return True
 
     def is_playing(self):
         '''Returns True if a song is being played'''
