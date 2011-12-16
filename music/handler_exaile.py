@@ -12,14 +12,35 @@ class ExaileHandler(DBusBase.DBusBase):
                  iface_name = 'org.exaile.Exaile',
                  iface_path = '/org/exaile/Exaile'):
         DBusBase.DBusBase.__init__(self, main_window, iface_name, iface_path)
+        self.check_song()
+
+    def state_changed(self):
+        '''process player status changes'''
+        self.check_song()
+
+    def reconnect(self):
+        '''method to attemp a reconnection, via dbus, this is only
+        called if the bus object is not initialized'''
+        if DBusBase.DBusBase.reconnect(self):
+            self.dbuspropiface = self.module.Interface(self.iface,
+                                    dbus_interface='org.exaile.Exaile')
+            self.dbuspropiface.connect_to_signal('StateChanged', self.state_changed)
+            self.dbuspropiface.connect_to_signal('TrackChanged', self.state_changed)
+            return True
+
+        return False
+
+    def get_automatic_updates(self):
+        '''When the handler can do automatic updates of player status
+           and timeout are not needed.
+        '''
+        return True
 
     def is_playing(self):
         '''Returns True if a song is being played'''
         if self.is_running():
-            track_info = str(self.iface.Query())
-            status = track_info.split(", ")[0]
-            if status == "status: playing":
-                return True
+            status = self.iface.GetState()
+            return status == "playing"
         return False
 
     def get_current_song(self):
