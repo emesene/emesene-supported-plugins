@@ -40,9 +40,9 @@ class MprisBase(DBusBase.DBusBase):
         if self.is_playing():
             song = self.iface.get_dbus_method("GetMetadata",
                 dbus_interface='org.freedesktop.MediaPlayer')()
-            return songretriever.Song(song['artist'],
-                                      song['album'],
-                                      song['title'])
+            return songretriever.Song(song.get('artist', "?"),
+                                      song.get('album', "?"),
+                                      song.get('title', "?"))
 
 class ClementineHandler(MprisBase):
     '''Handler for Clementine'''
