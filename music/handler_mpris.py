@@ -58,14 +58,3 @@ class GuayadequeHandler(MprisBase):
                  iface_path='/Player'):
         MprisBase.__init__(self, main_window, iface_name, iface_path)
 
-class PraghaHandler(MprisBase):
-    '''Handler for Pragha'''
-    NAME = 'Pragha'
-    DESCRIPTION = 'Music handler for Pragha'
-    AUTHOR = 'Mariano Guerra'
-    WEBSITE = 'www.emesene.org'
-
-    def __init__(self, main_window = None,
-                 iface_name='org.mpris.pragha',
-                 iface_path='/Player'):
-        MprisBase.__init__(self, main_window, iface_name, iface_path)
