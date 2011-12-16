@@ -67,10 +67,12 @@ class BaseMusicHandler(object):
 
         self.config_dialog_class = BaseMusicHandlerConfig
 
-        self.timeout = glib.timeout_add_seconds(15, self.check_song)
+        if not self.get_automatic_updates():
+            self.timeout = glib.timeout_add_seconds(15, self.check_song)
 
     def check_song(self):
         '''get the current song and set it if different than the last one'''
+
         if self.session:
             song = self.get_current_song()
 
@@ -86,6 +88,12 @@ class BaseMusicHandler(object):
                 self.session.set_media(None)
 
         return True
+
+    def get_automatic_updates(self):
+        '''When the handler can do automatic updates of player status
+           and timeouts are not needed.
+        '''
+        return False
 
     def get_current_song(self):
         ''' returns current song info

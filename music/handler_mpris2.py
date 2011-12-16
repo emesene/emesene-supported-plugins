@@ -16,6 +16,8 @@
 #    along with emesene; if not, write to the Free Software
 #    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
+#see http://www.mpris.org/2.1/spec/ for details
+
 import songretriever
 import DBusBase
 
@@ -23,12 +25,19 @@ class Mpris2Base(DBusBase.DBusBase):
     def __init__(self, main_window, iface_name, iface_path):
         DBusBase.DBusBase.__init__(self, main_window, iface_name, iface_path)
         self.dbuspropiface = None
+        #check for player init state
+        self.check_song()
+
+    def on_properties_changed(self, *args, **kargs):
+        '''process player status changes'''
+        self.check_song()
 
     def reconnect(self):
         '''method to attemp a reconnection, via dbus, this is only
         called if the bus object is not initialized'''
         if DBusBase.DBusBase.reconnect(self):
             self.dbuspropiface = self.module.Interface(self.iface,dbus_interface='org.freedesktop.DBus.Properties')
+            self.dbuspropiface.connect_to_signal('PropertiesChanged', self.on_properties_changed)
             return True
 
         return False
@@ -41,10 +50,16 @@ class Mpris2Base(DBusBase.DBusBase):
 
         return False
 
+    def get_automatic_updates(self):
+        '''When the handler can do automatic updates of player status
+           and timeout are not needed.
+        '''
+        return True
+
     def get_current_song(self):
         '''Returns the current song in the correct format'''
         if self.is_playing():
-            metadata_dict=self.dbuspropiface.Get("org.mpris.MediaPlayer2.Player","Metadata")
+            metadata_dict = self.dbuspropiface.Get("org.mpris.MediaPlayer2.Player","Metadata")
             return songretriever.Song(metadata_dict.get(self.module.String(u'xesam:artist'))[0], 
                                       metadata_dict.get(self.module.String(u'xesam:album')),
                                       metadata_dict.get(self.module.String(u'xesam:title')))
