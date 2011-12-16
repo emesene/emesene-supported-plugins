@@ -58,7 +58,6 @@ class Plugin(PluginBase):
 
     def extensions_register(self):
         if os.name != "nt": #import unix players
-            import handler_audacious2
             import handler_banshee
             import handler_exaile
             import handler_gmusicbrowser
@@ -76,7 +75,7 @@ class Plugin(PluginBase):
                 XMMSCLIENT = False
 
             extension.register(CATEGORY, handler_mpris.Amarok2Handler)
-            extension.register(CATEGORY, handler_audacious2.Audacious2Handler)
+            extension.register(CATEGORY, handler_mpris.AudaciousHandler)
             extension.register(CATEGORY, handler_banshee.BansheeHandler)
             extension.register(CATEGORY, handler_mpris.ClementineHandler)
             extension.register(CATEGORY, handler_exaile.ExaileHandler)

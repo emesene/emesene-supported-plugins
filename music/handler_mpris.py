@@ -56,6 +56,18 @@ class ClementineHandler(MprisBase):
                  iface_path='/Player'):
         MprisBase.__init__(self, main_window, iface_name, iface_path)
 
+class AudaciousHandler(MprisBase):
+    '''Handler for Audacious'''
+    NAME = 'Audacious'
+    DESCRIPTION = 'Music handler for Audacious'
+    AUTHOR = 'Mariano Guerra'
+    WEBSITE = 'www.emesene.org'
+
+    def __init__(self, main_window=None,
+                 iface_name='org.mpris.audacious',
+                 iface_path='/Player'):
+        MprisBase.__init__(self, main_window, iface_name, iface_path)
+
 class Amarok2Handler(MprisBase):
     '''Handler for Amarok2'''
     NAME = 'Amarok2'
