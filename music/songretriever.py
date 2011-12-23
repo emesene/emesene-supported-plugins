@@ -56,6 +56,7 @@ class BaseMusicHandler(object):
         self.last_title = None
         self.session = None
         self.avatar_manager = None
+        self.enabled = True
 
         self.session = main_window.session
         self.avatar_manager = AvatarManager(self.session)
@@ -70,12 +71,27 @@ class BaseMusicHandler(object):
         if not self.get_automatic_updates():
             self.timeout = glib.timeout_add_seconds(15, self.check_song)
 
+    def start(self):
+        self.enabled = True
+        if not self.get_automatic_updates():
+            self.timeout = glib.timeout_add_seconds(15, self.check_song)
+        else:
+            self.check_song()
+
+    def stop(self):
+        self.enabled = False
+        self.last_title = None
+        self.session.set_media(None)
+        if not self.get_automatic_updates():
+            self.check_song()
+
     def check_song(self):
         '''get the current song and set it if different than the last one'''
+        if not self.enabled:
+            return False
 
         if self.session:
             song = self.get_current_song()
-
             if song:
                 current_title = (song.title, song.artist)
                 if current_title != self.last_title:
@@ -142,6 +158,9 @@ class MusicHandler(BaseMusicHandler):
     def check_song(self):
         '''get the current song and set it if different than the last one
         You don't need to override this'''
+        if not self.enabled:
+            return False
+
         if self.session:
             song = self.get_current_song()
 

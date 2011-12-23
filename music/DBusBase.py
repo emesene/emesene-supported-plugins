@@ -34,6 +34,18 @@ class DBusBase(songretriever.MusicHandler):
         self.iface = None
         self.module = dbus
         self.root = dbus.SessionBus().get_object(ROOT_NAME, ROOT_PATH)
+        self.autocheck_bus()
+
+    def autocheck_bus(self):
+        '''monitor bus for connect/disconnect events'''
+        session = self.module.SessionBus()
+        def cb(conected):
+            if conected: # may be empty
+                self.start()
+            else:
+                self.stop()
+
+        self.watch = session.watch_name_owner(self.iface_name, cb)
 
     def reconnect(self):
         '''method to attemp a reconnection, via dbus, this is only
@@ -56,8 +68,12 @@ class DBusBase(songretriever.MusicHandler):
                 self.reconnect()
             return True
         else:
-            self.iface = None
+            self.stop()
             return False
+
+    def stop(self):
+        songretriever.MusicHandler.stop(self)
+        self.iface = None
 
     def is_playing(self):
         '''Returns True if a song is being played'''
