@@ -4,6 +4,8 @@ import os
 
 from plugin_base import PluginBase
 
+import MusicButton
+
 CATEGORY = 'listening to'
 
 class Plugin(PluginBase):
@@ -33,7 +35,6 @@ class Plugin(PluginBase):
         self.extensions_register()
 
         self.running = True
-
         return True
 
     def config(self, session):
@@ -53,7 +54,7 @@ class Plugin(PluginBase):
     def category_register(self):
         import songretriever
         extension.category_register(CATEGORY, songretriever.BaseMusicHandler, songretriever.BaseMusicHandler, True)
-
+        extension.register('userpanel button', MusicButton.MusicButton)
         return True
 
     def extensions_register(self):
