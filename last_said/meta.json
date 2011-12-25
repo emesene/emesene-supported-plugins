@@ -1,0 +1,8 @@
+{
+    "name" : "Idle Status",
+    "version" : 1,
+    "required emesene version" : "2.11.11",
+    "configurable" : true,
+    "description" : "Change status to idle after 5 minutes of inactivity",
+    "authors" : [["arielj", "arieljuod gmail com"]]
+}

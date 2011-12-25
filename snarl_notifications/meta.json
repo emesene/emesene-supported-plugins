@@ -1,0 +1,8 @@
+{
+    "name" : "Snarl Notifications",
+    "version" : 1,
+    "required emesene version" : "2.11.11",
+    "configurable" : false,
+    "description" : "Plugin for Snarl notifications",
+    "authors" : [["Shawn McTear", "syst3mfailur3@gmail.com"]]
+}
