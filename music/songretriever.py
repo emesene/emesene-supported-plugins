@@ -52,13 +52,12 @@ class BaseMusicHandler(object):
     DESCRIPTION = 'Don\'t listen to any player'
     AUTHOR = 'Mariano Guerra'
     WEBSITE = 'www.emesene.org'
-    def __init__(self, main_window):
+    def __init__(self, session):
         self.last_title = None
-        self.session = None
+        self.session = session
         self.avatar_manager = None
         self.enabled = True
 
-        self.session = main_window.session
         self.avatar_manager = AvatarManager(self.session)
 
         self.config = self.session.config
@@ -149,8 +148,8 @@ class MusicHandler(BaseMusicHandler):
     AUTHOR = 'Mariano Guerra'
     WEBSITE = 'www.emesene.org'
 
-    def __init__(self, main_window):
-        BaseMusicHandler.__init__(self, main_window)
+    def __init__(self, session):
+        BaseMusicHandler.__init__(self, session)
         # set default values if not set
         self.config.get_or_set('music_format', "(8) %TITLE% - %ARTIST%")
         self.config.get_or_set('change_avatar', True)
@@ -251,4 +250,3 @@ class MusicHandler(BaseMusicHandler):
             return image_path
 
         return None
-

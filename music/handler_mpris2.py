@@ -22,8 +22,8 @@ import songretriever
 import DBusBase
 
 class Mpris2Base(DBusBase.DBusBase):
-    def __init__(self, main_window, iface_name, iface_path):
-        DBusBase.DBusBase.__init__(self, main_window, iface_name, iface_path)
+    def __init__(self, session, iface_name, iface_path):
+        DBusBase.DBusBase.__init__(self, session, iface_name, iface_path)
         self.dbuspropiface = None
         #check for player init state
         self.check_song()
@@ -71,10 +71,10 @@ class PraghaHandler(Mpris2Base):
     AUTHOR = 'Mariano Guerra'
     WEBSITE = 'www.emesene.org'
 
-    def __init__(self, main_window=None,
+    def __init__(self, session,
                  iface_name = 'org.mpris.MediaPlayer2.pragha',
                  iface_path = '/org/mpris/MediaPlayer2'):
-        Mpris2Base.__init__(self, main_window, iface_name, iface_path)
+        Mpris2Base.__init__(self, session, iface_name, iface_path)
 
 class RhythmboxHandler(Mpris2Base):
     '''Handler for Rhythmbox 3'''
@@ -83,8 +83,7 @@ class RhythmboxHandler(Mpris2Base):
     AUTHOR = 'Mariano Guerra'
     WEBSITE = 'www.emesene.org'
 
-    def __init__(self, main_window=None,
+    def __init__(self, session,
                  iface_name = 'org.mpris.MediaPlayer2.rhythmbox',
                  iface_path = '/org/mpris/MediaPlayer2'):
-        Mpris2Base.__init__(self, main_window, iface_name, iface_path)
-
+        Mpris2Base.__init__(self, session, iface_name, iface_path)

@@ -27,24 +27,28 @@ class Plugin(PluginBase):
         '''stop the plugin'''
         self.session = None
         self.running = False
+
+        extension.delete_instance(CATEGORY)
+
         return True
 
     def start(self, session):
         '''start the plugin'''
         self.session = session
+        self.running = True
 
         self.category_register()
         self.extensions_register()
 
-        self.running = True
+        extension.get_and_instantiate(CATEGORY, session)
+
         return True
 
     def config(self, session):
         '''config the plugin'''
-        category = extension.get_category(CATEGORY)
-        player = category.get_instance()
+        player = extension.get_instance(CATEGORY)
 
-        if player != None:
+        if player is not None:
             player.preferences()
 
         return True

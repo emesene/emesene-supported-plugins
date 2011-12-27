@@ -8,8 +8,8 @@ class iTunesHandler(songretriever.MusicHandler):
     AUTHOR = 'Josh F'
     WEBSITE = 'www.sidhosting.co.uk'
     
-    def __init__(self, main_window = None):
-        songretriever.MusicHandler.__init__(self, main_window)
+    def __init__(self, session):
+        songretriever.MusicHandler.__init__(self, session)
         
     def is_running(self):
         '''Check whether iTunes is running'''

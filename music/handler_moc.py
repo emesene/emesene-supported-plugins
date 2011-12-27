@@ -8,8 +8,8 @@ class MocHandler(songretriever.MusicHandler):
     AUTHOR = 'Adolfo Fitoria'
     WEBSITE = 'www.emesene.org'
 
-    def __init__(self, main_window = None):
-        songretriever.MusicHandler.__init__(self, main_window)
+    def __init__(self, session):
+        songretriever.MusicHandler.__init__(self, session)
 
     def is_running(self):
         '''returns True if the player is running'''

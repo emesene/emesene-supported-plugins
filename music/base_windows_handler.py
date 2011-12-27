@@ -31,8 +31,8 @@ class WindowsPlayerHandler( songretriever.BaseMusicHandler ):
     DESCRIPTION = 'Handler for basic windows music player (NOT! Windows Media Player)'
     AUTHOR = 'Ariel Juodziukynas'
     WEBSITE = 'www.emesene.org'
-    def __init__(self, main_window = None):
-        songretriever.BaseMusicHandler.__init__( self, main_window )
+    def __init__(self, session):
+        songretriever.BaseMusicHandler.__init__(self, session)
         self.window = None
         self.windowClass = None
         self.currentSong = None

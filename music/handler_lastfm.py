@@ -11,8 +11,8 @@ class LastfmHandler(songretriever.MusicHandler):
     AUTHOR = 'Mariano Guerra'
     WEBSITE = 'www.emesene.org'
 
-    def __init__(self, main_window = None):
-        songretriever.MusicHandler.__init__(self, main_window)
+    def __init__(self, session):
+        songretriever.MusicHandler.__init__(self, session)
 
         self.login = "Diftool80"
         self.update_interval = 60
@@ -64,4 +64,3 @@ class LastfmHandler(songretriever.MusicHandler):
         title = element[0].childNodes[0].nodeValue
 
         return songretriever.Song(artist, album, title)
-

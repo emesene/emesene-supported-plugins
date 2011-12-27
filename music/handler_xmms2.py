@@ -9,8 +9,8 @@ class Xmms2Handler(songretriever.MusicHandler):
     AUTHOR = 'Karasu'
     WEBSITE = 'www.emesene.org'
 
-    def __init__(self, main_window = None):
-        songretriever.MusicHandler.__init__(self, main_window)
+    def __init__(self, session):
+        songretriever.MusicHandler.__init__(self, session)
 
         self.client = None
         self.reconnect()
@@ -68,5 +68,3 @@ class Xmms2Handler(songretriever.MusicHandler):
 
         return songretriever.Song(info["artist"],
                     info["album"], info["title"])
-
-

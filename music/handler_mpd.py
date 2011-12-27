@@ -20,11 +20,11 @@ class MpdHandler(songretriever.MusicHandler):
     AUTHOR = 'Mariano Guerra'
     WEBSITE = 'www.emesene.org'
 
-    def __init__(self, main_window):
-        songretriever.MusicHandler.__init__(self, main_window)
+    def __init__(self, session):
+        songretriever.MusicHandler.__init__(self, session)
 
         # Use our specific config dialog
-        self.config = main_window.session.config
+        self.config = session.session.config
 
         # set default values if not set
         self.config.get_or_set("mpd_host", "localhost")
@@ -74,5 +74,3 @@ class MpdHandler(songretriever.MusicHandler):
         return songretriever.Song(info.get('artist', '?'),
             info.get('album', '?'), info.get('title', '?'),
             info.get('file', '?'))
-
-

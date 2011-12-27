@@ -23,8 +23,8 @@ class XMPlayHandler( base_windows_handler.WindowsPlayerHandler ):
     DESCRIPTION = 'Handler for XMPlay'
     AUTHOR = 'Ariel Juodziukynas'
     WEBSITE = 'www.emesene.org'
-    def __init__(self, main_window = None):
-        base_windows_handler.WindowsPlayerHandler.__init__( self, main_window )
+    def __init__(self, session):
+        base_windows_handler.WindowsPlayerHandler.__init__( self, session )
         self.windowClass = 'XMPLAY-MAIN'
         self.isRunning()
 

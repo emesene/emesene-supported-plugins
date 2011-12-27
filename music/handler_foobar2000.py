@@ -42,8 +42,8 @@ class Foobar2000Handler( base_windows_handler.WindowsPlayerHandler ):
     DESCRIPTION = 'Handler for Foobar2000'
     AUTHOR = 'Ariel Juodziukynas'
     WEBSITE = 'www.emesene.org'
-    def __init__(self, main_window = None):
-        base_windows_handler.WindowsPlayerHandler.__init__( self, main_window )
+    def __init__(self, session):
+        base_windows_handler.WindowsPlayerHandler.__init__( self, session )
         self.windowClass = "foobar2000"
         self.isRunning()
 

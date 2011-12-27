@@ -2,8 +2,8 @@ import songretriever
 import DBusBase
 
 class MprisBase(DBusBase.DBusBase):
-    def __init__(self, main_window, iface_name, iface_path):
-        DBusBase.DBusBase.__init__(self, main_window, iface_name, iface_path)
+    def __init__(self, session, iface_name, iface_path):
+        DBusBase.DBusBase.__init__(self, session, iface_name, iface_path)
         self.check_song()
 
     def status_change(self, state):
@@ -51,10 +51,10 @@ class ClementineHandler(MprisBase):
     AUTHOR = 'Mariano Guerra'
     WEBSITE = 'www.emesene.org'
 
-    def __init__(self, main_window=None,
+    def __init__(self, session,
                  iface_name='org.mpris.clementine',
                  iface_path='/Player'):
-        MprisBase.__init__(self, main_window, iface_name, iface_path)
+        MprisBase.__init__(self, session, iface_name, iface_path)
 
 class AudaciousHandler(MprisBase):
     '''Handler for Audacious'''
@@ -63,10 +63,10 @@ class AudaciousHandler(MprisBase):
     AUTHOR = 'Mariano Guerra'
     WEBSITE = 'www.emesene.org'
 
-    def __init__(self, main_window=None,
+    def __init__(self, session,
                  iface_name='org.mpris.audacious',
                  iface_path='/Player'):
-        MprisBase.__init__(self, main_window, iface_name, iface_path)
+        MprisBase.__init__(self, session, iface_name, iface_path)
 
 class Amarok2Handler(MprisBase):
     '''Handler for Amarok2'''
@@ -75,10 +75,10 @@ class Amarok2Handler(MprisBase):
     AUTHOR = 'Mariano Guerra'
     WEBSITE = 'www.emesene.org'
 
-    def __init__(self, main_window=None,
+    def __init__(self, session,
                  iface_name='org.mpris.amarok',
                  iface_path='/Player'):
-        MprisBase.__init__(self, main_window, iface_name, iface_path)
+        MprisBase.__init__(self, session, iface_name, iface_path)
 
 class GuayadequeHandler(MprisBase):
     '''Handler for guayadeque'''
@@ -87,8 +87,7 @@ class GuayadequeHandler(MprisBase):
     AUTHOR = 'Mariano Guerra'
     WEBSITE = 'www.emesene.org'
 
-    def __init__(self, main_window = None,
+    def __init__(self, session,
                  iface_name='org.mpris.guayadeque',
                  iface_path='/Player'):
-        MprisBase.__init__(self, main_window, iface_name, iface_path)
-
+        MprisBase.__init__(self, session, iface_name, iface_path)

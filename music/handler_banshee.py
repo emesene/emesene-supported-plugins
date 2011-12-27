@@ -8,10 +8,10 @@ class BansheeHandler(DBusBase.DBusBase):
     AUTHOR = 'Adolfo Fitoria'
     WEBSITE = 'www.emesene.org'
 
-    def __init__(self, main_window = None,
+    def __init__(self, session,
                  iface_name = 'org.bansheeproject.Banshee',
                  iface_path = '/org/bansheeproject/Banshee/PlayerEngine'):
-        DBusBase.DBusBase.__init__(self, main_window, iface_name, iface_path)
+        DBusBase.DBusBase.__init__(self, session, iface_name, iface_path)
         self.check_song()
 
     def state_changed(self, state):
@@ -54,4 +54,3 @@ class BansheeHandler(DBusBase.DBusBase):
                 info.get('name', '?'))
 
         return None
-

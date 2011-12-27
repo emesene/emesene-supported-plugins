@@ -8,10 +8,10 @@ class GMusicBrowserHandler(DBusBase.DBusBase):
     AUTHOR = 'Mariano Guerra'
     WEBSITE = 'www.emesene.org'
 
-    def __init__(self, main_window = None,
+    def __init__(self, session,
                  iface_name = 'org.gmusicbrowser',
                  iface_path = '/org/gmusicbrowser'):
-        DBusBase.DBusBase.__init__(self, main_window, iface_name, iface_path)
+        DBusBase.DBusBase.__init__(self, session, iface_name, iface_path)
 
     def is_running(self):
         '''Returns a True if the player is running'''
@@ -31,5 +31,3 @@ class GMusicBrowserHandler(DBusBase.DBusBase):
             return songretriever.Song(song['artist'],
                                       song['album'],
                                       song['title'])
-
-

@@ -8,10 +8,10 @@ class ExaileHandler(DBusBase.DBusBase):
     AUTHOR = 'Karasu'
     WEBSITE = 'www.emesene.org'
 
-    def __init__(self, main_window = None,
+    def __init__(self, session,
                  iface_name = 'org.exaile.Exaile',
                  iface_path = '/org/exaile/Exaile'):
-        DBusBase.DBusBase.__init__(self, main_window, iface_name, iface_path)
+        DBusBase.DBusBase.__init__(self, session, iface_name, iface_path)
         self.check_song()
 
     def state_changed(self):
@@ -56,4 +56,3 @@ class ExaileHandler(DBusBase.DBusBase):
             if title == None:
                 title = ""
             return songretriever.Song(artist, album, title)
-

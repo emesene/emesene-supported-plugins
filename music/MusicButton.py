@@ -33,7 +33,7 @@ class MusicButton(gtk.ToggleButton):
     AUTHOR = 'Jose Rostagno'
     WEBSITE = 'www.emesene.org'
 
-    def __init__(self, main_window, arg):
+    def __init__(self, session, arg):
         """constructor"""
         gtk.ToggleButton.__init__(self)
         self.set_tooltip_text(_('Enable/Disable Music Plugin'))
@@ -42,8 +42,7 @@ class MusicButton(gtk.ToggleButton):
         self.set_image(music_image)
         self.set_relief(gtk.RELIEF_NONE)
         self.connect('toggled', self._on_button_toggled)
-        self.music = extension.get_and_instantiate('listening to',
-                        main_window)
+        self.music = extension.get_instance('listening to')
         self.set_active(self.music.is_running())
 
     def _on_button_toggled(self, button):
@@ -52,4 +51,3 @@ class MusicButton(gtk.ToggleButton):
             self.music.start()
         else:
             self.music.stop()
-

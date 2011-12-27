@@ -12,10 +12,10 @@ class RhythmboxHandler(DBusBase.DBusBase):
     AUTHOR = 'Mariano Guerra'
     WEBSITE = 'www.emesene.org'
 
-    def __init__(self, main_window = None,
+    def __init__(self, session,
                  iface_name = 'org.gnome.Rhythmbox',
                  iface_path = '/org/gnome/Rhythmbox/Player'):
-        DBusBase.DBusBase.__init__(self, main_window, iface_name, iface_path)
+        DBusBase.DBusBase.__init__(self, session, iface_name, iface_path)
         self.rbshell = None
 
     def reconnect(self):
@@ -44,5 +44,3 @@ class RhythmboxHandler(DBusBase.DBusBase):
             return songretriever.Song(song['artist'],
                                       song['album'],
                                       song['title'])
-
-

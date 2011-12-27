@@ -23,8 +23,8 @@ class OneByOneHandler( base_windows_handler.WindowsPlayerHandler ):
     DESCRIPTION = 'Handler for OneByOne music player'
     AUTHOR = 'Ariel Juodziukynas'
     WEBSITE = 'www.emesene.org'
-    def __init__(self, main_window = None):
-        base_windows_handler.WindowsPlayerHandler.__init__( self, main_window )
+    def __init__(self, session):
+        base_windows_handler.WindowsPlayerHandler.__init__( self, session )
         self.windowClass = '1by1WndClass'
         self.isRunning()
 
