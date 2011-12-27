@@ -87,3 +87,15 @@ class RhythmboxHandler(Mpris2Base):
                  iface_name = 'org.mpris.MediaPlayer2.rhythmbox',
                  iface_path = '/org/mpris/MediaPlayer2'):
         Mpris2Base.__init__(self, session, iface_name, iface_path)
+
+class GMusicBrowserHandler(Mpris2Base):
+    '''Handler for gmusicbrowser'''
+    NAME = 'GMusicBrowser'
+    DESCRIPTION = 'Music handler for gmusicbrowser'
+    AUTHOR = 'Sven (Sbte)'
+    WEBSITE = 'www.emesene.org'
+
+    def __init__(self, session,
+                 iface_name = 'org.mpris.MediaPlayer2.gmusicbrowser',
+                 iface_path = '/org/mpris/MediaPlayer2'):
+        Mpris2Base.__init__(self, session, iface_name, iface_path)

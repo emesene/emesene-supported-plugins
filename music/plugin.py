@@ -111,7 +111,7 @@ class Plugin(PluginBase):
             extension.register(CATEGORY, handler_banshee.BansheeHandler)
             extension.register(CATEGORY, handler_mpris.ClementineHandler)
             extension.register(CATEGORY, handler_exaile.ExaileHandler)
-            extension.register(CATEGORY, handler_gmusicbrowser.GMusicBrowserHandler)
+            extension.register(CATEGORY, handler_mpris2.GMusicBrowserHandler)
             extension.register(CATEGORY, handler_mpris.GuayadequeHandler)
             extension.register(CATEGORY, handler_lastfm.LastfmHandler)
             extension.register(CATEGORY, handler_moc.MocHandler)
@@ -145,7 +145,7 @@ class Plugin(PluginBase):
             import handler_smplayer
             import handler_winamp
             import handler_xmplay
-            
+
             extension.register(CATEGORY, handler_atunes.aTunesHandler)
             extension.register(CATEGORY, handler_foobar2000.Foobar2000Handler)
             extension.register(CATEGORY, handler_gomplayer.GOMPlayerHandler)
