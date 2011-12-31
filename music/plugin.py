@@ -92,7 +92,6 @@ class Plugin(PluginBase):
         if os.name != "nt": #import unix players
             import handler_banshee
             import handler_exaile
-            import handler_gmusicbrowser
             import handler_lastfm
             import handler_moc
             import handler_mpd
