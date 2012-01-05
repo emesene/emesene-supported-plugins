@@ -1,8 +1,8 @@
 {
-    "name" : "Idle Status",
-    "version" : 1,
-    "required emesene version" : "2.11.11",
+    "name" : "Last Said",
+    "version" : 2,
+    "required emesene version" : "2.12.1",
     "configurable" : true,
-    "description" : "Change status to idle after 5 minutes of inactivity",
-    "authors" : [["arielj", "arieljuod gmail com"]]
+    "description" : "Show last messages sent or received from a contact",
+    "authors" : [["Jose Rostagno", "pepeleproso gmail com"]]
 }
