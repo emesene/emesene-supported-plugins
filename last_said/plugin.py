@@ -21,7 +21,9 @@ from plugin_base import PluginBase
 
 import e3
 import gui
+import time
 import datetime
+from datetime import timedelta
 import Preferences
 import Queue
 
@@ -64,7 +66,11 @@ class Plugin(PluginBase):
         if not (conversation.members[0] is None or conversation.is_group_chat):
             dest = self.session.contacts.me.account
             src = conversation.members[0]
-            self.session.logger.get_chats(src, dest, self.limit, self._on_chats_ready)
+            from_t = time.mktime(datetime.datetime.min.timetuple())
+            #If we are receiving a new message it's timespan it's equals to now, so we apply a delta to avoid show it.
+            delta = timedelta(microseconds=50)
+            to_t = time.mktime((datetime.datetime.now() - delta).timetuple())
+            self.session.logger.get_chats_between (src, dest, from_t, to_t, self.limit, self._on_chats_ready)
         else:
             conversation.conv_status.clear()
             conversation.output.unlock ()

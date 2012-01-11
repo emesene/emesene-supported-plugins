@@ -1,6 +1,6 @@
 {
     "name" : "Last Said",
-    "version" : 3,
+    "version" : 4,
     "required emesene version" : "2.12.1",
     "configurable" : true,
     "description" : "Show last messages sent or received from a contact",
