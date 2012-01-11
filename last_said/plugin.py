@@ -23,6 +23,7 @@ import e3
 import gui
 import datetime
 import Preferences
+import Queue
 
 class Plugin(PluginBase):
     _description = 'Show last messages sent or received from a contact'
@@ -33,7 +34,7 @@ class Plugin(PluginBase):
 
     def start(self, session):
         self.session = session
-        self.conversations = []
+        self.conversations = Queue.Queue()
         self.limit = self.session.config.get_or_set('i_last_said_messages', 5)
         self.session.conversation_start_locked = True
         self.session.signals.conv_started.subscribe(
@@ -46,7 +47,7 @@ class Plugin(PluginBase):
             self._on_started_message)
         self.session.conversation_start_locked = False
         self.session = None
-        self.conversations = []
+        self.conversations = Queue.Queue()
         return False
 
     def config(self, session):
@@ -59,7 +60,7 @@ class Plugin(PluginBase):
 
     def _on_started_message(self, cid, members):
         conversation = self.session.get_conversation(cid)
-        self.conversations.append(conversation)
+        self.conversations.put(conversation)
         if not (conversation.members[0] is None or conversation.is_group_chat):
             dest = self.session.contacts.me.account
             src = conversation.members[0]
@@ -70,7 +71,7 @@ class Plugin(PluginBase):
 
     def _on_chats_ready(self, results):
         '''called when the chat history is ready'''
-        conversation = self.conversations.pop()
+        conversation = self.conversations.get(False)
         conversation.conv_status.clear()
 
         if not results:
