@@ -49,7 +49,7 @@ class Plugin(PluginBase):
             self._on_started_message)
         self.session.conversation_start_locked = False
         self.session = None
-        self.conversations = Queue.Queue()
+        self.conversations = None
         return False
 
     def config(self, session):
