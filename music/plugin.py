@@ -1,12 +1,10 @@
 import extension
-
 import os
+import re
 
 from plugin_base import PluginBase
-
-import MusicButton
-
 from gui.base import Handler
+import MusicButton
 
 CATEGORY = 'listening to'
 
