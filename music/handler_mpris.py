@@ -25,7 +25,7 @@ class MprisBase(DBusBase.DBusBase):
         '''When the handler can do automatic updates of player status
            and timeout are not needed.
         '''
-        return False
+        return True
 
     def is_playing(self):
         '''Returns True if a song is being played'''
@@ -67,6 +67,12 @@ class AudaciousHandler(MprisBase):
                  iface_name='org.mpris.audacious',
                  iface_path='/Player'):
         MprisBase.__init__(self, session, iface_name, iface_path)
+
+    def get_automatic_updates(self):
+        '''When the handler can do automatic updates of player status
+           and timeout are not needed.
+        '''
+        return False
 
 class Amarok2Handler(MprisBase):
     '''Handler for Amarok2'''
