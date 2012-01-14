@@ -25,7 +25,7 @@ class MprisBase(DBusBase.DBusBase):
         '''When the handler can do automatic updates of player status
            and timeout are not needed.
         '''
-        return True
+        return False
 
     def is_playing(self):
         '''Returns True if a song is being played'''
