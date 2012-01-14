@@ -58,33 +58,22 @@ class Plugin(PluginBase):
         return True
 
     #FIXME: move somewhere else?
-    def _supported_version(self, min_version):
-        '''check if current version is supported'''
-        min_ver = min_version.split(".")
-        loc_ver = Handler.EMESENE_VERSION.split(".")
+    def version_value(self, version):
+        '''return an integer version value'''
+        if isinstance(version, int):
+            return version
 
-        if int(loc_ver[0]) < int(min_ver[0]):
-            return False
-        if int(loc_ver[1]) < int(min_ver[1]):
-            return False
-
-        min_micro = min_ver[2].split("-")
-        loc_micro = loc_ver[2].split("-")
-        if int(loc_micro[0]) < int(min_micro[0]):
-            return False
-
-        min_devel = len(min_micro)
-        loc_devel = len(loc_micro)
-
-        if (int(loc_micro[0]) == int(min_micro[0])) and (loc_devel < min_devel):
-            return False
-
-        return True
+        stripped_version = re.sub(r'[^\d.]+', '', version)
+        split_version = stripped_version.split(".")
+        split_version.reverse()
+        value = 0
+        for i, val in enumerate(split_version):
+            value += (int(val) << ((3-i) * 8))
 
     def category_register(self):
         import songretriever
         extension.category_register(CATEGORY, songretriever.BaseMusicHandler, songretriever.BaseMusicHandler, True)
-        if self._supported_version("2.11.12-devel"):
+        if self.version_value(Handler.EMESENE_VERSION) > self.version_value("2.11.12-devel"):
             extension.register('userpanel button', MusicButton.MusicButton)
         return True
 
