@@ -106,6 +106,7 @@ class Plugin(PluginBase):
             extension.register(CATEGORY, handler_mpd.MpdHandler)
             extension.register(CATEGORY, handler_mpris2.PraghaHandler)
             extension.register(CATEGORY, handler_mpris2.RhythmboxHandler)
+            extension.register(CATEGORY, handler_mpris2.AudaciousHandler)
             extension.register(CATEGORY, handler_rhythmbox.RhythmboxHandler)
 
             #Import OS X players

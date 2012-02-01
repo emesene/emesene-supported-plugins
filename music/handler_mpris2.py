@@ -99,3 +99,15 @@ class GMusicBrowserHandler(Mpris2Base):
                  iface_name = 'org.mpris.MediaPlayer2.gmusicbrowser',
                  iface_path = '/org/mpris/MediaPlayer2'):
         Mpris2Base.__init__(self, session, iface_name, iface_path)
+
+class AudaciousHandler(Mpris2Base):
+    '''Handler for Audacious 3.2'''
+    NAME = 'Audacious 3.2'
+    DESCRIPTION = 'Music handler for Audacious 3.2+'
+    AUTHOR = 'Mariano Guerra'
+    WEBSITE = 'www.emesene.org'
+
+    def __init__(self, main_window=None,
+                 iface_name = 'org.mpris.MediaPlayer2.audacious',
+                 iface_path = '/org/mpris/MediaPlayer2'):
+        Mpris2Base.__init__(self, main_window, iface_name, iface_path)
