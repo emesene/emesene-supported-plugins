@@ -1,6 +1,6 @@
 {
     "name" : "Music",
-    "version" : 7,
+    "version" : 8,
     "required emesene version" : "2.11.11",
     "configurable" : true,
     "description" : "Show in your message what you are listening to.",
