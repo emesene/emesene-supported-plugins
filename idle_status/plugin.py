@@ -27,10 +27,9 @@ if os.name == "nt":
     import WindowsTimer
 
 try:
-    import XlibTimer
-    HAS_XLIB = True
+    from XlibTimer import XlibTimer as LinuxTimer
 except Exception, e:
-    HAS_XLIB = False
+    from xidletimer import XIdleTimer as LinuxTimer
 
 import Preferences
 
@@ -83,8 +82,7 @@ class Plugin(PluginBase):
         if os.name == "nt":
             extension.category_register('idle timer', WindowsTimer.WindowsTimer,
                 None, True)
-        else: #TODO: add some unix extensions that works always
-            if HAS_XLIB:
-                extension.category_register('idle timer', XlibTimer.XlibTimer,
-                    None, True)
+        else:
+            extension.category_register('idle timer', LinuxTimer,
+                None, True)
         #TODO: add some mac method too
