@@ -1,0 +1,8 @@
+{
+    "name" : "Gnome Session Integration",
+    "version" : 1,
+    "required emesene version" : "2.11.11",
+    "configurable" : false,
+    "description" : "Set busy status according to gnome session status",
+    "authors" : [["Jose Rostagno", ""]]
+}
