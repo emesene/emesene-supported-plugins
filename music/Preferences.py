@@ -34,14 +34,14 @@ class Preferences(gtk.Window):
         buttons = gtk.HButtonBox()
         buttons.set_layout(gtk.BUTTONBOX_END)
 
-        accept = gtk.Button(stock=gtk.STOCK_OK)
         cancel = gtk.Button(stock=gtk.STOCK_CANCEL)
+        accept = gtk.Button(stock=gtk.STOCK_OK)
 
-        buttons.pack_start(accept)
         buttons.pack_start(cancel)
+        buttons.pack_start(accept)
 
-        accept.connect('clicked', self._on_accept)
         cancel.connect('clicked', self._on_cancel)
+        accept.connect('clicked', self._on_accept)
         self.connect('delete_event', self._on_close)
 
         vbox.pack_start(self.config_table, True, False)
