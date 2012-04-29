@@ -18,7 +18,8 @@ class StatusCombo(gtk.ComboBox):
         self.model = gtk.ListStore(gtk.gdk.Pixbuf, \
                       gobject.TYPE_INT, gobject.TYPE_STRING)
 
-        gtk.ComboBox.__init__(self, self.model)
+        gtk.ComboBox.__init__(self)
+        self.set_model(self.model)
         self.main_window = main_window
         self.status = None
 
