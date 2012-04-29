@@ -16,6 +16,7 @@
 #    along with emesene; if not, write to the Free Software
 #    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 '''module to define the HistoryStatusCombo class, used by plugin.py'''
+
 import gtk
 import gobject
 
@@ -37,7 +38,8 @@ class HistoryStatusCombo(gtk.ComboBox):
         self.model = gtk.ListStore(gobject.TYPE_STRING, gtk.gdk.Pixbuf, \
                       gobject.TYPE_INT, gobject.TYPE_STRING)
 
-        gtk.ComboBox.__init__(self, self.model)
+        gtk.ComboBox.__init__(self)
+        self.set_model(self.model)
         self.main_window = main_window
         self.status = None
 
