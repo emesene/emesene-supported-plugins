@@ -1,6 +1,6 @@
 {
     "name" : "Contact Status History Combo",
-    "version" : 1,
+    "version" : 2,
     "required emesene version" : "2.11.11",
     "configurable" : false,
     "description" : "Show a list with the history of online/offline events of every contact with a timestamp",
