@@ -30,15 +30,17 @@ class Plugin(PluginBase):
         PluginBase.__init__(self)
 
     def start(self, session):
-        self.extensions_register()
+        if hasattr(extension, 'unregister'):
+            extension.register('below userlist', HistoryStatusCombo.HistoryStatusCombo, force_default=True)
+        else:
+            extension.register('below userlist', HistoryStatusCombo.HistoryStatusCombo)
         return True
 
     def stop(self):
+        if hasattr(extension, 'unregister'):
+            extension.unregister('below userlist', HistoryStatusCombo.HistoryStatusCombo)
         return False
 
     def config(self, session):
         '''method to config the plugin'''
         pass
-
-    def extensions_register(self):
-        extension.register('below userlist', HistoryStatusCombo.HistoryStatusCombo)

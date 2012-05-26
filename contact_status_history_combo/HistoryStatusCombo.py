@@ -40,7 +40,7 @@ class HistoryStatusCombo(gtk.ComboBox):
 
         gtk.ComboBox.__init__(self)
         self.set_model(self.model)
-        self.main_window = main_window
+        self.session = main_window.session
         self.status = None
 
         status_timespan_cell = gtk.CellRendererText()
@@ -61,7 +61,7 @@ class HistoryStatusCombo(gtk.ComboBox):
         self.set_wrap_width(1)
         self.set_active(0)
 
-        main_window.session.signals.contact_attr_changed.subscribe(
+        self.session.signals.contact_attr_changed.subscribe(
                 self._on_contact_change_something)
 
     def _on_contact_change_something(self, *args):
@@ -74,7 +74,7 @@ class HistoryStatusCombo(gtk.ComboBox):
             account, type_change, value_change, do_notify = args
 
         if type_change == 'status':
-            contact =  self.main_window.session.contacts.get(account)
+            contact =  self.session.contacts.get(account)
             if not contact:
                 return
             time = strftime('[%H:%M:%S]', localtime())
@@ -92,6 +92,7 @@ class HistoryStatusCombo(gtk.ComboBox):
             self.model.prepend([time, pixbuf, contact.status, display_name])
             self.set_active(0)
 
-    def on_stop():
-        main_window.session.signals.contact_attr_changed.unsubscribe(
+    def __del__(self):
+        self.session.signals.contact_attr_changed.unsubscribe(
                 self._on_contact_change_something)
+
