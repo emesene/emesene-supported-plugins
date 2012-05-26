@@ -79,12 +79,7 @@ class HistoryStatusCombo(gtk.ComboBox):
                 return
             time = strftime('[%H:%M:%S]', localtime())
             stat = e3.status.STATUS[contact.status]
-
-            if hasattr(gui.theme, "image_theme"):
-                status = gui.theme.image_theme.status_icons[contact.status]
-            else:
-                status = gui.theme.status_icons[contact.status]
-
+            status = gui.theme.image_theme.status_icons[contact.status]
             pixbuf = utils.safe_gtk_pixbuf_load(status)
 
             pixbuf.scale_simple(20, 20, gtk.gdk.INTERP_BILINEAR)
