@@ -1,6 +1,6 @@
 {
     "name" : "Idle Status",
-    "version" : 2,
+    "version" : 3,
     "required emesene version" : "2.11.11",
     "configurable" : true,
     "description" : "Change status to idle after 5 minutes of inactivity",
