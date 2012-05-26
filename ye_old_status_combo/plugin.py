@@ -11,15 +11,19 @@ class Plugin(PluginBase):
         PluginBase.__init__(self)
 
     def start(self, session):
-        self.extensions_register()
+        if hasattr(extension, 'unregister'):
+            extension.register('below userlist', StatusCombo.StatusCombo, force_default=True)
+        else:
+            extension.register('below userlist', StatusCombo.StatusCombo)
         return True
 
     def stop(self):
+        if hasattr(extension, 'unregister'):
+            extension.unregister('below userlist', StatusCombo.StatusCombo, force_default=True)
+        else:
+            extension.unregister('below userlist', StatusCombo.StatusCombo)
         return False
 
     def config(self, session):
         '''method to config the plugin'''
         pass
-
-    def extensions_register(self):
-        extension.register('below userlist', StatusCombo.StatusCombo)

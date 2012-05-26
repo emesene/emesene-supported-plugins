@@ -20,7 +20,7 @@ class StatusCombo(gtk.ComboBox):
 
         gtk.ComboBox.__init__(self)
         self.set_model(self.model)
-        self.main_window = main_window
+        self.session = main_window.session
         self.status = None
 
         status_pixbuf_cell = gtk.CellRendererPixbuf()
@@ -37,7 +37,7 @@ class StatusCombo(gtk.ComboBox):
         self.set_resize_mode(0)
         self.set_wrap_width(1)
 
-        current_status = main_window.session.account.status
+        current_status = self.session.account.status
 
         active = 0
         count = 0
@@ -48,11 +48,7 @@ class StatusCombo(gtk.ComboBox):
             if stat == current_status:
                 active = count
 
-            if hasattr(gui.theme, "image_theme"):
-                status = gui.theme.image_theme.status_icons[stat]
-            else:
-                status = gui.theme.status_icons[stat]
-
+            status = gui.theme.image_theme.status_icons[stat]
             pixbuf = utils.safe_gtk_pixbuf_load(gui.theme.image_theme.status_icons[stat])
             pixbuf.scale_simple(20, 20, gtk.gdk.INTERP_BILINEAR)
             self.model.append([pixbuf, stat, status_name]) # re-gettext-it
@@ -63,7 +59,7 @@ class StatusCombo(gtk.ComboBox):
 
         self.connect('scroll-event', self.on_scroll_event)
         self.connect('changed', self.on_status_changed)
-        main_window.session.signals.status_change_succeed.subscribe(
+        self.session.signals.status_change_succeed.subscribe(
                 self.on_status_change_succeed)
 
     def on_status_changed(self , *args):
@@ -72,7 +68,7 @@ class StatusCombo(gtk.ComboBox):
 
         if self.status != stat:
             self.status = stat
-            self.main_window.session.set_status(stat)
+            self.session.set_status(stat)
 
     def on_status_change_succeed(self, stat):
         """called when the status was changed on another place"""
@@ -85,3 +81,8 @@ class StatusCombo(gtk.ComboBox):
         """called when a scroll is made over the combo"""
         self.popup()
         return True
+
+    def __del__(self):
+        self.session.signals.status_change_succeed.unsubscribe(
+                self.on_status_change_succeed)
+
