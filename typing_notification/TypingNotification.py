@@ -36,6 +36,7 @@ class TypingNotification(gtk.Label):
         """constructor"""
         ##creo el label
         gtk.Label.__init__(self)
+        self.timeout_id = None
         self.conversation = conversation
         self.session = session
         self.active = False
@@ -54,10 +55,18 @@ class TypingNotification(gtk.Label):
                 self.active = True #avoid many timeout
                 display_name = Plus.msnplus_strip(contact.display_name)
                 self.set_markup(_("%s is typing") % display_name)
-                glib.timeout_add_seconds(3, self.update_label)
+                self.timeout_id = glib.timeout_add_seconds(3, self.update_label)
 
     def update_label(self):
         '''restart label'''
         self.active = False
         self.set_markup("")
+        self.timeout_id = None
+
+    def __del__(self):
+        '''clean up resources'''
+        self.session.signals.user_typing.unsubscribe(
+            self.on_user_typing)
+        if self.timeout_id:
+            gobject.source_remove(self.timeout_id)
 

@@ -26,15 +26,17 @@ class Plugin(PluginBase):
         PluginBase.__init__(self)
 
     def start(self, session):
-        self.extensions_register()
+        if hasattr(extension, 'unregister'):
+            extension.register('below conversation', TypingNotification.TypingNotification, force_default=True)
+        else:
+            extension.register('below conversation', TypingNotification.TypingNotification)
         return True
 
     def stop(self):
+        if hasattr(extension, 'unregister'):
+            extension.unregister('below conversation', TypingNotification.TypingNotification)
         return False
 
     def config(self, session):
         '''method to config the plugin'''
         pass
-
-    def extensions_register(self):
-        extension.register('below conversation', TypingNotification.TypingNotification)
