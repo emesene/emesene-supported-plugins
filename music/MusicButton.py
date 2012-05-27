@@ -33,9 +33,10 @@ class MusicButton(gtk.ToggleButton):
     AUTHOR = 'Jose Rostagno'
     WEBSITE = 'www.emesene.org'
 
-    def __init__(self, session, arg):
+    def __init__(self, userpanel, arg):
         """constructor"""
         gtk.ToggleButton.__init__(self)
+        self.session = userpanel.session
         self.set_tooltip_text(_('Enable/Disable Music Plugin'))
         music_image = utils.gtk_ico_image_load(gui.theme.emote_theme.emote_to_path('(8)', True),
             gtk.ICON_SIZE_MENU)
@@ -44,10 +45,27 @@ class MusicButton(gtk.ToggleButton):
         self.connect('toggled', self._on_button_toggled)
         self.music = extension.get_instance('listening to')
         self.set_active(self.music.is_running())
+        if hasattr(extension, "subscribe"):
+            extension.subscribe(self._on_extension_changed, 'listening to')
 
     def _on_button_toggled(self, button):
         '''called when the search button is toggled'''
         if button.get_active():
             self.music.start()
         else:
+            self.music.stop()
+
+    def _on_extension_changed(self, new_extension):
+        if type(self.music) != new_extension:
+            self.music.stop()
+            self.music = None
+            if new_extension:
+                self.music = new_extension(self.session)
+                if self.get_active():
+                    self.music.start()
+
+    def __del__(self):
+        if hasattr(extension, "unsubscribe"):
+            extension.unsubscribe(self._on_extension_changed,'listening to')
+        if self.music:
             self.music.stop()

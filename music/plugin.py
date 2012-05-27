@@ -8,6 +8,40 @@ import MusicButton
 
 CATEGORY = 'listening to'
 
+import songretriever
+
+#import handlers
+if os.name != "nt": #import unix players
+    import handler_banshee
+    import handler_exaile
+    import handler_lastfm
+    import handler_moc
+    import handler_mpd
+    import handler_mpris
+    import handler_mpris2
+    import handler_rhythmbox
+
+    try:
+        import handler_xmms2
+        XMMSCLIENT = True
+    except ImportError:
+        XMMSCLIENT = False
+
+    #Import OS X players
+    import handler_itunes
+    import handler_spotify
+else: #import Windows players
+    import handler_atunes
+    import handler_foobar2000
+    import handler_gomplayer
+    import handler_mediamonkey
+    import handler_mediaplayerclassic
+    import handler_onebyone
+    import handler_realplayer
+    import handler_smplayer
+    import handler_winamp
+    import handler_xmplay
+
 class Plugin(PluginBase):
     _authors = {'Mariano Guerra':'', 'Ariel Juodziukynas':'', 'Karasu':'',
                 'Josh F':'', 'Adolfo Fitoria':''}
@@ -17,28 +51,31 @@ class Plugin(PluginBase):
         PluginBase.__init__(self)
 
         self.session = None
-        self.running = False
-
         self.player = None
 
     def stop(self):
         '''stop the plugin'''
         self.session = None
-        self.running = False
-
         extension.delete_instance(CATEGORY)
+        if hasattr(extension, 'unregister'):
+            extension.unregister('userpanel button', MusicButton.MusicButton)
+            self.extensions_unregister()
 
         return True
 
     def start(self, session):
         '''start the plugin'''
         self.session = session
-        self.running = True
 
-        self.category_register()
+        extension.category_register(CATEGORY, songretriever.BaseMusicHandler, songretriever.BaseMusicHandler, True)
         self.extensions_register()
 
         extension.get_and_instantiate(CATEGORY, session)
+
+        if hasattr(extension, 'unregister'):
+            extension.register('userpanel button', MusicButton.MusicButton, force_default=True)
+        else:
+            extension.register('userpanel button', MusicButton.MusicButton)
 
         return True
 
@@ -55,45 +92,8 @@ class Plugin(PluginBase):
         '''this plugin is configurable'''
         return True
 
-    #FIXME: move somewhere else?
-    def version_value(self, version):
-        '''return an integer version value'''
-        if isinstance(version, int):
-            return version
-
-        stripped_version = re.sub(r'[^\d.]+', '', version)
-        split_version = stripped_version.split(".")
-        split_version.reverse()
-        value = 0
-        for i, val in enumerate(split_version):
-            value += (int(val) << (i * 8))
-
-        return value
-
-    def category_register(self):
-        import songretriever
-        extension.category_register(CATEGORY, songretriever.BaseMusicHandler, songretriever.BaseMusicHandler, True)
-        if self.version_value(Handler.EMESENE_VERSION) > self.version_value("2.11.12-devel"):
-            extension.register('userpanel button', MusicButton.MusicButton)
-        return True
-
     def extensions_register(self):
         if os.name != "nt": #import unix players
-            import handler_banshee
-            import handler_exaile
-            import handler_lastfm
-            import handler_moc
-            import handler_mpd
-            import handler_mpris
-            import handler_mpris2
-            import handler_rhythmbox
-
-            try:
-                import handler_xmms2
-                XMMSCLIENT = True
-            except ImportError:
-                XMMSCLIENT = False
-
             extension.register(CATEGORY, handler_mpris.Amarok2Handler)
             extension.register(CATEGORY, handler_mpris.AudaciousHandler)
             extension.register(CATEGORY, handler_banshee.BansheeHandler)
@@ -109,9 +109,7 @@ class Plugin(PluginBase):
             extension.register(CATEGORY, handler_mpris2.AudaciousHandler)
             extension.register(CATEGORY, handler_rhythmbox.RhythmboxHandler)
 
-            #Import OS X players
-            import handler_itunes
-            import handler_spotify
+            #OS X players
             extension.register(CATEGORY, handler_itunes.iTunesHandler)
             extension.register(CATEGORY, handler_spotify.SpotifyHandler)
 
@@ -124,17 +122,6 @@ class Plugin(PluginBase):
                 handler_id = extension._get_class_name(handler_rhythmbox.RhythmboxHandler)
                 self.session.config.d_extensions.get(CATEGORY, handler_id)
         else: #import Windows players
-            import handler_atunes
-            import handler_foobar2000
-            import handler_gomplayer
-            import handler_mediamonkey
-            import handler_mediaplayerclassic
-            import handler_onebyone
-            import handler_realplayer
-            import handler_smplayer
-            import handler_winamp
-            import handler_xmplay
-
             extension.register(CATEGORY, handler_atunes.aTunesHandler)
             extension.register(CATEGORY, handler_foobar2000.Foobar2000Handler)
             extension.register(CATEGORY, handler_gomplayer.GOMPlayerHandler)
@@ -153,3 +140,38 @@ class Plugin(PluginBase):
                 self.session.config.d_extensions.get(CATEGORY, handler_id)
 
         extension.set_default_by_id(CATEGORY, handler_id)
+
+    def extensions_unregister(self):
+        if os.name != "nt": #import unix players
+            extension.unregister(CATEGORY, handler_mpris.Amarok2Handler)
+            extension.unregister(CATEGORY, handler_mpris.AudaciousHandler)
+            extension.unregister(CATEGORY, handler_banshee.BansheeHandler)
+            extension.unregister(CATEGORY, handler_mpris.ClementineHandler)
+            extension.unregister(CATEGORY, handler_exaile.ExaileHandler)
+            extension.unregister(CATEGORY, handler_mpris2.GMusicBrowserHandler)
+            extension.unregister(CATEGORY, handler_mpris.GuayadequeHandler)
+            extension.unregister(CATEGORY, handler_lastfm.LastfmHandler)
+            extension.unregister(CATEGORY, handler_moc.MocHandler)
+            extension.unregister(CATEGORY, handler_mpd.MpdHandler)
+            extension.unregister(CATEGORY, handler_mpris2.PraghaHandler)
+            extension.unregister(CATEGORY, handler_mpris2.RhythmboxHandler)
+            extension.unregister(CATEGORY, handler_mpris2.AudaciousHandler)
+            extension.unregister(CATEGORY, handler_rhythmbox.RhythmboxHandler)
+
+            #OS X players
+            extension.unregister(CATEGORY, handler_itunes.iTunesHandler)
+            extension.unregister(CATEGORY, handler_spotify.SpotifyHandler)
+
+            if XMMSCLIENT:
+                extension.unregister(CATEGORY, handler_xmms2.Xmms2Handler)
+        else: #import Windows players
+            extension.unregister(CATEGORY, handler_atunes.aTunesHandler)
+            extension.unregister(CATEGORY, handler_foobar2000.Foobar2000Handler)
+            extension.unregister(CATEGORY, handler_gomplayer.GOMPlayerHandler)
+            extension.unregister(CATEGORY, handler_mediamonkey.MediaMonkeyHandler)
+            extension.unregister(CATEGORY, handler_mediaplayerclassic.MediaPlayerClassicHandler)
+            extension.unregister(CATEGORY, handler_onebyone.OneByOneHandler)
+            extension.unregister(CATEGORY, handler_realplayer.RealPlayerHandler)
+            extension.unregister(CATEGORY, handler_smplayer.SMPlayerHandler)
+            extension.unregister(CATEGORY, handler_winamp.WinampHandler)
+            extension.unregister(CATEGORY, handler_xmplay.XMPlayHandler)

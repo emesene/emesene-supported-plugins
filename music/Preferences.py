@@ -17,11 +17,7 @@ class Preferences(gtk.Window):
         self.callback = callback
         self.set_border_width(2)
         self.set_title(player_name + " preferences")
-        if hasattr(gui.theme, "image_theme"):
-            logo = gui.theme.image_theme.logo
-        else:
-            logo = gui.theme.logo
-
+        logo = gui.theme.image_theme.logo
         self.set_icon(
             utils.safe_gtk_image_load(logo).get_pixbuf())
 
