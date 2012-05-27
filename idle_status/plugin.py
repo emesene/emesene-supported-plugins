@@ -53,10 +53,11 @@ class Plugin(PluginBase):
 
     def stop(self):
         glib.source_remove(self.timeout_id)
-        if os.name == "nt":
-            extension.unregister('idle timer', WindowsTimer.WindowsTimer)
-        else:
-            extension.unregister('idle timer', LinuxTimer)
+        if hasattr(extension, "unregister"):
+            if os.name == "nt":
+                extension.unregister('idle timer', WindowsTimer.WindowsTimer)
+            else:
+                extension.unregister('idle timer', LinuxTimer)
 
     def config(self, session):
         '''config the plugin'''
