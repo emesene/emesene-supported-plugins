@@ -19,8 +19,6 @@ class Plugin(PluginBase):
 
     def stop(self):
         if hasattr(extension, 'unregister'):
-            extension.unregister('below userlist', StatusCombo.StatusCombo, force_default=True)
-        else:
             extension.unregister('below userlist', StatusCombo.StatusCombo)
         return False
 
