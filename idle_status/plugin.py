@@ -36,6 +36,10 @@ import Preferences
 # I don't know if mac uses Xlib or something, I've found some reference to
 # "HIDIdleTime" system property but I have no way to implement/test it
 
+POSIBLE_STATUS = [e3.status.ONLINE,
+            e3.status.BUSY,
+            e3.status.AWAY]
+
 class Plugin(PluginBase):
     _description = 'Change status to idle after 5 minutes of inactivity'
     _authors = { 'arielj' : 'arieljuod gmail com' }
@@ -49,6 +53,7 @@ class Plugin(PluginBase):
         #TODO: Find a way to be independant of gobject
         self.timeout_id = glib.timeout_add_seconds(4, self.idle_state)
         self.is_idle = self.session.contacts.me.status == e3.status.IDLE
+        self.last_status = self.session.contacts.me.status
         self.timer = None
 
     def stop(self):
@@ -74,12 +79,13 @@ class Plugin(PluginBase):
         idle_time = self.timer.get_idle_duration()
         if idle_time >= self.session.config.i_idle_status_duration:
             #if idle enough time and ONLINE, set idle status
-            if self.session.contacts.me.status == e3.status.ONLINE:
+            if self.session.contacts.me.status in POSIBLE_STATUS:
+                self.last_status = self.session.contacts.me.status
                 self.session.set_status(e3.status.IDLE)
                 self.is_idle=True
         elif idle_time < self.session.config.i_idle_status_duration and self.is_idle:
             #if status is idle but the user moved something, set online
-            self.session.set_status(e3.status.ONLINE)
+            self.session.set_status(self.last_status)
             self.is_idle=False
         return True
 
