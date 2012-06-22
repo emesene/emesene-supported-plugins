@@ -22,6 +22,20 @@ import time
 import os
 import ctypes
 
+X11 = None
+XSS = None
+
+def check_deps():
+    '''check if we have the required libraries'''
+    global X11, XSS
+
+    X11 = ctypes.util.find_library("X11")
+    XSS = ctypes.util.find_library("Xss")
+    if X11 is None or XSS is None:
+        raise ImportError("Can't import Timer dependencies not found")
+
+check_deps()
+
 class XScreenSaverInfo(ctypes.Structure):
   """ typedef struct { ... } XScreenSaverInfo; """
   _fields_ = [('window',      ctypes.c_ulong), # screen saver window
@@ -33,10 +47,11 @@ class XScreenSaverInfo(ctypes.Structure):
 
 class XIdleTimer(object):
     def __init__(self):
-        self.xlib       = ctypes.cdll.LoadLibrary('libX11.so')
-        self.dpy        = self.xlib.XOpenDisplay(os.environ['DISPLAY'])
-        self.root       = self.xlib.XDefaultRootWindow(self.dpy)
-        self.xss        = ctypes.cdll.LoadLibrary('libXss.so')
+        global X11, XSS
+        self.xlib = ctypes.cdll.LoadLibrary(X11)
+        self.dpy = self.xlib.XOpenDisplay(os.environ['DISPLAY'])
+        self.root = self.xlib.XDefaultRootWindow(self.dpy)
+        self.xss = ctypes.cdll.LoadLibrary(XSS)
         self.xss.XScreenSaverAllocInfo.restype \
                 = ctypes.POINTER(XScreenSaverInfo)
 

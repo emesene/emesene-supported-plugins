@@ -24,12 +24,12 @@ import os
 from plugin_base import PluginBase
 
 if os.name == "nt":
-    import WindowsTimer
-
-try:
-    from XlibTimer import XlibTimer as LinuxTimer
-except Exception, e:
-    from xidletimer import XIdleTimer as LinuxTimer
+    from WindowsTimer import WindowsTimer as OSTimer
+else:
+    try:
+        from XlibTimer import XlibTimer as OSTimer
+    except Exception, e:
+        from xidletimer import XIdleTimer as OSTimer
 
 import Preferences
 
@@ -84,10 +84,6 @@ class Plugin(PluginBase):
         return True
 
     def category_register(self):
-        if os.name == "nt":
-            extension.category_register('idle timer', WindowsTimer.WindowsTimer,
-                None, True)
-        else:
-            extension.category_register('idle timer', LinuxTimer,
+        extension.category_register('idle timer', OSTimer,
                 None, True)
         #TODO: add some mac method too
