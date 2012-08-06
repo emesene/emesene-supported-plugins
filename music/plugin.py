@@ -1,5 +1,5 @@
 import extension
-import os
+import sys
 import re
 
 from plugin_base import PluginBase
@@ -11,7 +11,7 @@ CATEGORY = 'listening to'
 import songretriever
 
 #import handlers
-if os.name != "nt": #import unix players
+if sys.platform == "linux2" or sys.platform == 'linux3': #import unix players
     import handler_banshee
     import handler_exaile
     import handler_lastfm
@@ -27,9 +27,10 @@ if os.name != "nt": #import unix players
     except ImportError:
         XMMSCLIENT = False
 
-    #Import OS X players
+elif sys.platform == "darwin": #Import OS X players
     import handler_itunes
     import handler_spotify
+
 else: #import Windows players
     import handler_atunes
     import handler_foobar2000
@@ -93,7 +94,7 @@ class Plugin(PluginBase):
         return True
 
     def extensions_register(self):
-        if os.name != "nt": #import unix players
+        if sys.platform == "linux2" or sys.platform == 'linux3': #import unix players
             extension.register(CATEGORY, handler_mpris.Amarok2Handler)
             extension.register(CATEGORY, handler_mpris.AudaciousHandler)
             extension.register(CATEGORY, handler_banshee.BansheeHandler)
@@ -109,10 +110,6 @@ class Plugin(PluginBase):
             extension.register(CATEGORY, handler_mpris2.AudaciousHandler)
             extension.register(CATEGORY, handler_rhythmbox.RhythmboxHandler)
 
-            #OS X players
-            extension.register(CATEGORY, handler_itunes.iTunesHandler)
-            extension.register(CATEGORY, handler_spotify.SpotifyHandler)
-
             if XMMSCLIENT:
                 extension.register(CATEGORY, handler_xmms2.Xmms2Handler)
 
@@ -121,6 +118,17 @@ class Plugin(PluginBase):
             if handler_id is None:
                 handler_id = extension._get_class_name(handler_rhythmbox.RhythmboxHandler)
                 self.session.config.d_extensions.get(CATEGORY, handler_id)
+
+        elif sys.platform == "darwin": #OS X players
+            extension.register(CATEGORY, handler_itunes.iTunesHandler)
+            extension.register(CATEGORY, handler_spotify.SpotifyHandler)
+
+            handler_id = self.session.config.d_extensions.get(CATEGORY, None)
+
+            if handler_id is None:
+                handler_id = extension._get_class_name(handler_rhythmbox.RhythmboxHandler)
+                self.session.config.d_extensions.get(CATEGORY, handler_id)
+
         else: #import Windows players
             extension.register(CATEGORY, handler_atunes.aTunesHandler)
             extension.register(CATEGORY, handler_foobar2000.Foobar2000Handler)
@@ -142,7 +150,7 @@ class Plugin(PluginBase):
         extension.set_default_by_id(CATEGORY, handler_id)
 
     def extensions_unregister(self):
-        if os.name != "nt": #import unix players
+        if sys.platform == "linux2" or sys.platform == 'linux3': #import unix players
             extension.unregister(CATEGORY, handler_mpris.Amarok2Handler)
             extension.unregister(CATEGORY, handler_mpris.AudaciousHandler)
             extension.unregister(CATEGORY, handler_banshee.BansheeHandler)
@@ -158,12 +166,13 @@ class Plugin(PluginBase):
             extension.unregister(CATEGORY, handler_mpris2.AudaciousHandler)
             extension.unregister(CATEGORY, handler_rhythmbox.RhythmboxHandler)
 
-            #OS X players
+            if XMMSCLIENT:
+                extension.unregister(CATEGORY, handler_xmms2.Xmms2Handler)
+
+        elif sys.platform == "darwin": #OS X players
             extension.unregister(CATEGORY, handler_itunes.iTunesHandler)
             extension.unregister(CATEGORY, handler_spotify.SpotifyHandler)
 
-            if XMMSCLIENT:
-                extension.unregister(CATEGORY, handler_xmms2.Xmms2Handler)
         else: #import Windows players
             extension.unregister(CATEGORY, handler_atunes.aTunesHandler)
             extension.unregister(CATEGORY, handler_foobar2000.Foobar2000Handler)
