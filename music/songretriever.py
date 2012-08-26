@@ -42,8 +42,8 @@ class BaseMusicHandlerConfig(BaseTable):
                                  'config.music_format', config.music_format)'''
         self.append_markup(_('Message Format: ') + "%TITLE% - %ARTIST%")
         self.append_check(_('Use the album art as an avatar'), 'config.change_avatar')
-        self.append_markup(_('See the "listening to" option in the extentions tab of the'))
-	self.append_markup(_('preference window to select a preferred media player'))
+        self.append_markup(_('See the "listening to" option in the extentions tab of the\n'
+            'preference window to select a preferred media player'))
 
 class BaseMusicHandler(object):
     '''Base class for all music handlers that 
