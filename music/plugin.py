@@ -44,9 +44,6 @@ else: #import Windows players
     import handler_xmplay
 
 class Plugin(PluginBase):
-    _authors = {'Mariano Guerra':'', 'Ariel Juodziukynas':'', 'Karasu':'',
-                'Josh F':'', 'Adolfo Fitoria':''}
-    _description = 'Show in your message what you are listening to'
 
     def __init__(self):
         PluginBase.__init__(self)
@@ -58,26 +55,16 @@ class Plugin(PluginBase):
         '''stop the plugin'''
         self.session = None
         extension.delete_instance(CATEGORY)
-        if hasattr(extension, 'unregister'):
-            extension.unregister('userpanel button', MusicButton.MusicButton)
-            self.extensions_unregister()
 
+        #FIXME: remove the first check once we depend on 2.12.5 and the second in 2.12.10+
+        if hasattr(extension, 'unregister') and not hasattr(PluginBase, 'extension_unregister'):
+            self.extensions_unregister()
         return True
 
     def start(self, session):
         '''start the plugin'''
         self.session = session
-
-        extension.category_register(CATEGORY, songretriever.BaseMusicHandler, songretriever.BaseMusicHandler, True)
-        self.extensions_register()
-
         extension.get_and_instantiate(CATEGORY, session)
-
-        if hasattr(extension, 'unregister'):
-            extension.register('userpanel button', MusicButton.MusicButton, force_default=True)
-        else:
-            extension.register('userpanel button', MusicButton.MusicButton)
-
         return True
 
     def config(self, session):
@@ -89,11 +76,10 @@ class Plugin(PluginBase):
 
         return True
 
-    def configurable(self):
-        '''this plugin is configurable'''
-        return True
+    def category_register(self):
+        extension.category_register(CATEGORY, songretriever.BaseMusicHandler, songretriever.BaseMusicHandler, True)
 
-    def extensions_register(self):
+    def extension_register(self):
         if sys.platform == "linux2" or sys.platform == 'linux3': #import unix players
             extension.register(CATEGORY, handler_mpris.Amarok2Handler)
             extension.register(CATEGORY, handler_mpris.AudaciousHandler)
@@ -149,7 +135,15 @@ class Plugin(PluginBase):
 
         extension.set_default_by_id(CATEGORY, handler_id)
 
-    def extensions_unregister(self):
+        if hasattr(extension, 'unregister'):
+            extension.register('userpanel button', MusicButton.MusicButton, force_default=True)
+        else:
+            extension.register('userpanel button', MusicButton.MusicButton)
+
+    def extension_unregister(self):
+
+        extension.unregister('userpanel button', MusicButton.MusicButton)
+
         if sys.platform == "linux2" or sys.platform == 'linux3': #import unix players
             extension.unregister(CATEGORY, handler_mpris.Amarok2Handler)
             extension.unregister(CATEGORY, handler_mpris.AudaciousHandler)

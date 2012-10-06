@@ -1,7 +1,7 @@
 {
     "name" : "Music",
-    "version" : 10,
-    "required emesene version" : "2.11.11",
+    "version" : 11,
+    "required emesene version" : "2.12.3",
     "configurable" : true,
     "description" : "Show in your message what you are listening to.",
     "authors" : [["Mariano Guerra", ""], ["Ariel Juodziukynas", ""], ["Karasu", ""], ["Josh F", ""], ["Adolfo Fitoria", ""]]
