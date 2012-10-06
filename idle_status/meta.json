@@ -1,7 +1,7 @@
 {
     "name" : "Idle Status",
-    "version" : 6,
-    "required emesene version" : "2.11.11",
+    "version" : 7,
+    "required emesene version" : "2.12.3",
     "configurable" : true,
     "description" : "Change status to idle after 5 minutes of inactivity",
     "authors" : [["arielj", "arieljuod gmail com"]]

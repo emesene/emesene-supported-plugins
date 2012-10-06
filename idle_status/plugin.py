@@ -41,8 +41,6 @@ POSIBLE_STATUS = [e3.status.ONLINE,
             e3.status.AWAY]
 
 class Plugin(PluginBase):
-    _description = 'Change status to idle after 5 minutes of inactivity'
-    _authors = { 'arielj' : 'arieljuod gmail com' }
     def __init__(self):
         PluginBase.__init__(self)
 
@@ -64,10 +62,6 @@ class Plugin(PluginBase):
     def config(self, session):
         '''config the plugin'''
         Preferences.Preferences(self.session)
-
-    def configurable(self):
-        '''this plugin is configurable'''
-        return True
 
     #check if user was idle enough time to change status
     def idle_state(self):
