@@ -26,6 +26,7 @@ class Plugin(PluginBase):
         PluginBase.__init__(self)
 
     def start(self, session):
+        #FIXME: remove the first check once we depend on 2.12.5+
         if hasattr(extension, 'unregister'):
             extension.register('below conversation', TypingNotification.TypingNotification, force_default=True)
         else:
@@ -33,10 +34,14 @@ class Plugin(PluginBase):
         return True
 
     def stop(self):
-        if hasattr(extension, 'unregister'):
-            extension.unregister('below conversation', TypingNotification.TypingNotification)
+        #FIXME: remove the first check once we depend on 2.12.5 and the second in 2.12.10+
+        if hasattr(extension, 'unregister') and not hasattr(PluginBase, "extension_unregister"):
+            self.extension_unregister()
         return False
 
     def config(self, session):
         '''method to config the plugin'''
         pass
+
+    def extension_unregister(self):
+        extension.unregister('below conversation', TypingNotification.TypingNotification)

@@ -1,7 +1,7 @@
 {
     "name" : "Typing notification",
-    "version" : 2,
-    "required emesene version" : "2.11.12",
+    "version" : 3,
+    "required emesene version" : "2.12.3",
     "configurable" : false,
     "description" : "Show a text notification when contact is typing, like old emesene 1.x",
     "authors" : [["Jose Rostagno", ""]]

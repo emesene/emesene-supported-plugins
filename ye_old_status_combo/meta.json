@@ -1,7 +1,7 @@
 {
     "name" : "Ye Old Status Combo",
-    "version" : 4,
-    "required emesene version" : "2.11.11",
+    "version" : 5,
+    "required emesene version" : "2.12.3",
     "configurable" : false,
     "description" : "A combo to select the status like emesene 1.0",
     "authors" : [["Mariano Guerra", ""]]
