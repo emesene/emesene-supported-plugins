@@ -21,8 +21,6 @@ from plugin_base import PluginBase
 import GnomeSessionIntegration
 
 class Plugin(PluginBase):
-    _authors = {'Jose Rostagno':''}
-    _description = 'Set busy status according to gnome session status'
 
     def __init__(self):
         PluginBase.__init__(self)
@@ -42,7 +40,3 @@ class Plugin(PluginBase):
     def config(self, session):
         '''config the plugin'''
         return True
-
-    def configurable(self):
-        '''this plugin is configurable'''
-        return False
