@@ -28,8 +28,6 @@ import Preferences
 import Queue
 
 class Plugin(PluginBase):
-    _description = 'Show last messages sent or received from a contact'
-    _authors = { 'Jose Rostagno' : 'pepeleproso gmail com' }
 
     def __init__(self):
         PluginBase.__init__(self)
@@ -55,10 +53,6 @@ class Plugin(PluginBase):
     def config(self, session):
         '''config the plugin'''
         Preferences.Preferences(session)
-
-    def configurable(self):
-        '''this plugin is configurable'''
-        return True
 
     def _on_started_message(self, cid, members):
         conversation = self.session.get_conversation(cid)

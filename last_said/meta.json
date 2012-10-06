@@ -1,7 +1,7 @@
 {
     "name" : "Last Said",
     "version" : 5,
-    "required emesene version" : "2.12.1",
+    "required emesene version" : "2.12.3",
     "configurable" : true,
     "description" : "Show last messages sent or received from a contact",
     "authors" : [["Jose Rostagno", "pepeleproso gmail com"]]
