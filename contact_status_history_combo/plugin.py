@@ -22,25 +22,29 @@ from plugin_base import PluginBase
 import HistoryStatusCombo
 
 class Plugin(PluginBase):
-    _authors = {'Jose Rostagno':''}
-    _description = 'Show a list with the history of online/offline events of' \
-                   'every contact with a timestamp'
 
     def __init__(self):
         PluginBase.__init__(self)
 
     def start(self, session):
+        return True
+
+    def extension_register(self):
+        #FIXME: remove the first check once we depend on 2.12.5+
         if hasattr(extension, 'unregister'):
             extension.register('below userlist', HistoryStatusCombo.HistoryStatusCombo, force_default=True)
         else:
             extension.register('below userlist', HistoryStatusCombo.HistoryStatusCombo)
-        return True
 
     def stop(self):
-        if hasattr(extension, 'unregister'):
-            extension.unregister('below userlist', HistoryStatusCombo.HistoryStatusCombo)
+        #FIXME: remove the first check once we depend on 2.12.5 and the second in 2.12.10+
+        if hasattr(extension, 'unregister') and not hasattr(PluginBase, "extension_unregister"):
+            self.extension_unregister()
         return False
 
     def config(self, session):
         '''method to config the plugin'''
         pass
+
+    def extension_unregister(self):
+        extension.unregister('below userlist', HistoryStatusCombo.HistoryStatusCombo)
