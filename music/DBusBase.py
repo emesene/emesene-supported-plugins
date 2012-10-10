@@ -14,17 +14,9 @@ class DBusBase(songretriever.MusicHandler):
 
         try:
             import dbus
-            dbus_version = getattr(dbus, 'version', (0, 0, 0))
-            if dbus_version >= (0, 41, 0) and dbus_version < (0, 80, 0):
-                dbus.SessionBus()
-                import dbus.glib
-            elif dbus_version >= (0, 80, 0):
-                from dbus.mainloop.glib import DBusGMainLoop
-                DBusGMainLoop(set_as_default = True)
-                dbus.SessionBus()
-            else:
-                print 'python-dbus is too old, please update'
-                raise
+            from dbus.mainloop.glib import DBusGMainLoop
+            DBusGMainLoop(set_as_default = True)
+            dbus.SessionBus()
         except dbus.DBusException, error:
             print 'Unable to use D-Bus: %s' % str(error)
 

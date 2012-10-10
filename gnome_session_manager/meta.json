@@ -1,6 +1,6 @@
 {
     "name" : "Gnome Session Integration",
-    "version" : 2,
+    "version" : 3,
     "required emesene version" : "2.12.3",
     "configurable" : false,
     "description" : "Set busy status according to gnome session status",
