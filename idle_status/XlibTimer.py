@@ -27,7 +27,14 @@ class XlibTimer(object):
         self.last_y = -1
 
     def get_idle_duration(self):
-        #check mouse movement
+        try:
+            #check mouse movement
+            x = self.screen.root.query_pointer().root_x
+            y = self.screen.root.query_pointer().root_y
+        except TypeError:
+            #weird "unknown type GstMessage" error
+            return time.time() - self.last_activity
+
         x = self.screen.root.query_pointer()._data["root_x"]
         y = self.screen.root.query_pointer()._data["root_y"]
         if self.last_x == x and self.last_y == y:
